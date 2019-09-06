@@ -1,0 +1,165 @@
+Two cDNA clones were sequenced and provided 2,250 nucleotides ( nt ) of DNA sequence information .
+1,3 G#DNA|13,15 G#DNA
+
+There is a single methionine codon-initiated open reading frame of 1,458 nt in frame with a homeobox and a CAX repeat , and the open reading frame is predicted to encode a protein of 51,659 daltons .
+4,9 G#DNA|16,17 G#DNA|19,21 G#DNA|24,27 G#DNA
+
+When the homeodomain from HB24 was compared to known mammalian and Drosophila homeodomains it was found to be only moderately conserved , but when it was compared to a highly diverged Drosophila homeodomain , H2.0 , it was found to be 80 % identical .
+2,3 G#DNA|4,5 G#DNA|9,13 G#DNA|32,33 G#DNA|31,33 G#DNA
+
+The HB24 mRNA was absent or present at low levels in normal B and T lymphocytes ; however , with the appropriate activation signal HB24 mRNA was induced within several hours even in the presence of cycloheximide .
+1,3 G#RNA|14,16 G#cell_type|24,26 G#RNA
+
+Characterization of HB24 expression in lymphoid and select developing tissues was performed by in situ hybridization .
+2,3 G#DNA
+
+Positive hybridization was found in thymus , tonsil , bone marrow , developing vessels , and in fetal brain .
+
+
+HB24 is likely to have an important role in lymphocytes as well as in certain developing tissues .
+0,1 G#DNA|9,10 G#cell_type
+
+Platelet-activating factor induces phospholipid turnover , calcium flux , arachidonic acid liberation , eicosanoid generation , and oncogene expression in a human B cell line .
+0,2 G#protein|17,18 G#DNA|21,25 G#cell_line
+
+Platelet-activating factor is a potent mediator of the inflammatory response .
+0,2 G#protein
+
+Studies of the actions of platelet-activating factor have centered mainly around neutrophils , monocytes , and platelets .
+5,7 G#protein|11,12 G#cell_type|13,14 G#cell_type|16,17 G#cell_type
+
+In this report we begin to uncover the influence of platelet-activating factor on B lymphocytes .
+10,12 G#protein|13,15 G#cell_type
+
+Employing the EBV-transformed human B cell line SKW6.4 , we demonstrate that platelet-activating factor significantly alters membrane phospholipid metabolism indicated by the incorporation of 32P into phosphatidylcholine , phosphatidylinositol , and phosphatidic acid but not significantly into phosphatidylethanolamine at concentrations ranging from 10 ( -9 ) to 10 ( -6 ) M .
+3,7 G#cell_line|2,7 G#cell_line|7,8 G#cell_line|12,14 G#protein
+
+The inactive precursor , lyso-platelet-activating factor , at a concentration as high as 10 ( -7 ) M had no effect on any of the membrane phospholipids .
+4,6 G#protein
+
+We also show that platelet-activating factor from 10 ( -12 ) to 10 ( -6 ) M induced rapid and significant elevation in intracellular calcium levels , whereas lyso- platelet-activating factor was again ineffective .
+4,6 G#protein|29,31 G#protein
+
+We further demonstrate the impact of platelet-activating factor binding to B cells by measuring platelet-activating factor induced arachidonic acid release and 5-hydroxyeicosatetraenoic acid production .
+6,8 G#protein|10,12 G#cell_type|14,16 G#protein
+
+Moreover , platelet-activating factor was capable of inducing transcription of the nuclear proto-oncogenes c-fos and c-jun .
+2,4 G#protein|11,13 G#DNA|13,14 G#DNA|15,16 G#DNA
+
+Finally we explored the possible role of 5-hydroxyeicosatetraenoic acid as a regulator of arachidonic acid liberation demonstrating that endogenous 5-lipoxygenase activity modulates platelet-activating factor induced arachidonic acid release perhaps acting at the level of phospholipase A2 .
+19,20 G#protein|22,24 G#protein|34,36 G#protein
+
+In summary , platelet-activating factor is shown here to have a direct and profound effect on a pure B cell line .
+3,5 G#protein|17,21 G#cell_line
+
+Positive and negative regulation of immunoglobulin gene expression by a novel B-cell-specific enhancer element .
+5,7 G#DNA|11,14 G#DNA
+
+A new B-cell-specific enhancer element has been identified 3' of E4 and the octamerlike motifs in the human immunoglobulin heavy-chain gene enhancer .
+2,5 G#DNA|10,15 G#DNA|17,20 G#protein|17,22 G#DNA
+
+Tandem copies of this 67-bp MnlI-AluI fragment , when fused to the chloramphenicol acetyltransferase gene driven by the conalbumin promoter , stimulated transcription in B cells but not in Jurkat T cells or HeLa cells .
+4,7 G#DNA|12,15 G#DNA|18,20 G#DNA|24,26 G#cell_type|29,32 G#cell_line|33,35 G#cell_line
+
+Footprinting analysis revealed that the identical sequence CCGAAACTGAAAAGG , designated E6 , was protected by nuclear extracts from B cells , T cells , or HeLa cells .
+10,11 G#DNA|18,20 G#cell_type|21,23 G#cell_type
+
+Gel mobility shift assays using a synthetic E6 motif detected a B-cell-specific complex in addition to a ubiquitous band found also in T cells and HeLa cells .
+6,9 G#DNA|11,13 G#protein|22,24 G#cell_type|25,27 G#cell_line
+
+In agreement with the results of gel retardation assays , tandem copies of the E6 motif stimulated transcription in ARH77 and Raji cells but not in Jurkat or HeLa cells .
+14,16 G#DNA|19,20 G#cell_line|21,23 G#cell_line|26,27 G#cell_line|28,30 G#cell_line
+
+Furthermore , a mutant E6 motif lost both in vitro binding activity and in vivo enhancer activity .
+3,6 G#DNA
+
+In striking contrast to the mouse Ig heavy-chain enhancer , in which the octamer motif acts as a B-cell-specific enhancer element , the human enhancer contains an octamerlike sequence with one base substitution which bound octamer-binding proteins with only very low affinity and showed no enhancer activity of its own .
+5,9 G#DNA|13,15 G#DNA|18,21 G#DNA|23,25 G#DNA|27,29 G#DNA|35,37 G#protein
+
+Interestingly , the MnlI-AluI fragment could suppress the basal-level activity of the conalbumin promoter in both Jurkat and HeLa cells .
+3,5 G#DNA|12,14 G#DNA|16,17 G#cell_line|18,20 G#cell_line
+
+Moreover , simian virus 40 enhancer activity was blocked by the MnlI-AluI fragment in HeLa cells but not in B cells .
+11,13 G#DNA|14,16 G#cell_line|19,21 G#cell_type
+
+Thus , the novel enhancer element identified in this study is probably a target site for both positive and negative factors .
+17,18 G#protein|19,21 G#protein|17,21 G#protein
+
+Charybdotoxin-sensitive , Ca(2+) -dependent membrane potential changes are not involved in human T or B cell activation and proliferation .
+12,16 G#cell_type
+
+The involvement of ion channels in B and T lymphocyte activation is supported by many reports of changes in ion fluxes and membrane potential after mitogen binding .
+3,5 G#protein|25,26 G#protein
+
+Human T and B lymphocytes demonstrate an early and transient hyperpolarization after ligand binding .
+0,5 G#cell_type
+
+Inasmuch as the change in membrane potential is dependent on elevation of free cytosolic calcium , the hyperpolarization is presumably through opening of Ca(2+)-stimulated K+ channels .
+
+
+We have used charybdotoxin , a known inhibitor of Ca(2+)-dependent K+ channels , to study the role of these channels in lymphocyte activation and mitogenesis .
+9,12 G#protein
+
+We demonstrate that charybdotoxin inhibits the ligand-induced transient membrane hyperpolarization in B and T cells in a dose-dependent fashion , without affecting changes in cytosolic Ca2+ .
+11,15 G#cell_type
+
+However , blockade of the Ca(2+)-activated K+ channel is not associated with changes in cell-cycle gene activation , IL-2 production , IL-2R expression or B and T cell mitogenesis .
+5,8 G#protein|18,19 G#protein|21,22 G#protein
+
+These results imply that membrane potential changes secondary to the ligand-dependent opening of Ca(2+)-activated K+ channels are not involved in B and T lymphocyte activation and mitogenesis .
+13,16 G#protein|20,24 G#cell_type
+
+Activity of the kappa B enhancer of the interleukin-2 receptor alpha chain in somatic cell hybrids is accompanied by the nuclear localization of NF-kappa B .
+3,6 G#DNA|8,12 G#protein|13,16 G#cell_line|23,25 G#protein
+
+The two nuclear proteins NF-kappa B ( consisting of subunits p50 an dp65 ) and the DNA-binding subunit of NF-kappa B ( p50 ) by itself , also called KBF1 , are constitutively expressed and localized in the nucleus of the human T-cell line IARC 301.5 .
+1,4 G#protein|4,6 G#protein|10,11 G#protein|12,13 G#protein|16,18 G#protein|19,21 G#protein|22,23 G#protein|29,30 G#protein|41,44 G#cell_line|44,46 G#cell_line
+
+In order to define the roles of these two factors , which bind to the same kappa B enhancers , in transcription activation we have prepared somatic cell hybrids between IARC 301.5 and a murine myeloma .
+9,10 G#protein|16,19 G#DNA|30,32 G#cell_line|34,36 G#cell_line
+
+Most hybrids express both KBF1 and NF-kappa B in their nuclei , but one hybrid expresses only KBF1 .
+4,5 G#protein|6,8 G#protein|17,18 G#protein
+
+The kappa B enhancer of the gene encoding the interleukin-2 ( IL-2 ) receptor alpha chain ( IL-2R alpha ) is functional only in the hybrids expressing nuclear NF-kappa B .
+1,4 G#DNA|9,10 G#protein|11,12 G#protein|9,16 G#protein|17,19 G#protein|25,26 G#cell_line|28,30 G#protein|27,30 G#protein
+
+These findings show that nuclear NF-kappa B is necessary to activate the kappa B enhancer , while KBF1 by itself is not sufficient .
+5,7 G#protein|4,7 G#protein|12,15 G#DNA|17,18 G#protein
+
+We propose that KBF1 is a competitive inhibitor of NF-kappa B and discuss how these factors may be involved in the transient expression of IL-2 and IL-2 alpha genes during the immune response .
+3,4 G#protein|9,11 G#protein|24,25 G#protein|26,28 G#protein
+
+T-helper-cell determinants in protein antigens are preferentially located in cysteine-rich antigen segments resistant to proteolytic cleavage by cathepsin B , L , and D .
+0,2 G#protein|3,5 G#protein|9,12 G#protein|17,24 G#protein
+
+We report on a computer algorithm capable of predicting the location of T-helper-cell epitopes in protein antigen ( Ag ) by analysing the Ag amino acid sequence .
+12,14 G#protein|15,17 G#protein|18,19 G#protein|23,24 G#protein|24,27 G#protein
+
+The algorithm was constructed with the aim of identifying segments in Ag which are resistant to proteolytic degradation by the enzymes cathepsin B , L , and D .
+11,12 G#protein|21,28 G#protein
+
+These are prominent enzymes in the endocytic pathway through which soluble protein Ag enter APC , and resistant segments in Ag may , therefore , be expected to contain more T-cell determinants than susceptible segments .
+3,4 G#protein|12,13 G#protein|10,13 G#protein|14,15 G#protein|17,19 G#protein|20,21 G#protein|30,32 G#protein|33,35 G#protein
+
+From information available in the literature on the substrate specificity of the three enzymes , it is clear that a cysteine is not accepted in any of the S2 , S1 , S1' , and S2' subsites of cathepsin B and L , and not in the S1 and S1' subsites of cathepsin D .
+13,14 G#protein|28,37 G#protein|38,42 G#protein|47,48 G#protein|49,50 G#protein|52,54 G#protein
+
+Moreover , we have noticed that cysteine -containing T-cell determinants in a number of protein Ag are particularly rich in the amino acids alanine , glycine , lysine , leucine , serine , threonine , and valine .
+6,10 G#protein|15,16 G#protein|14,16 G#protein
+
+By searching protein Ag for clusters of amino acids containing cysteine and two of the other amino acids we were able to predict 17 out of 23 empirically known T-cell determinants in the Ag with a relatively low number of false ( positive ) predictions .
+3,4 G#protein|29,31 G#protein|33,34 G#protein
+
+Furthermore , we present a new principle for searching Ag for potential amphipatic alpha-helical protein segments .
+9,10 G#protein|12,16 G#protein
+
+Such segments accord well with empirically known T-cell determinants and our algorithm produces a lower number of false positive predictions than the principle based on discrete Fourier transformations previously described .
+7,9 G#protein
+
+Contribution of NF-kappa B and Sp1 binding motifs to the replicative capacity of human immunodeficiency virus type 1 : distinct patterns of viral growth are determined by T-cell types .
+2,4 G#protein|5,8 G#DNA|27,29 G#cell_type
+
+Starting with a replication-incompetent molecular clone of human immunodeficiency virus type 1 , lacking all the NF-kappa B and Sp1 binding sites present in the native long terminal repeat ( LTR ) , proviruses containing reconstructed LTRs with individual or combinations of NF-kappa B and Sp1 elements were generated and evaluated for their capacity to produce virus progeny following transfection-cocultivation .
+16,22 G#DNA|25,29 G#DNA|30,31 G#DNA|35,37 G#DNA|42,47 G#DNA
+
