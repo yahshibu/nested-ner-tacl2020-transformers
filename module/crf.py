@@ -258,8 +258,6 @@ class ChainCRF4NestedNER(nn.Module):
         Args:
             energy: Tensor
                 the energy tensor with shape = [length, num_label, num_label]
-            mask: Tensor or None
-                the mask tensor with shape = [length]
 
         Returns: Tensor
             decoding nested results in shape [length]
