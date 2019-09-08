@@ -148,7 +148,7 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
     def predict(self, input_ids: Tensor, input_mask: Tensor, first_sub_tokens: List[List[int]], mask: Tensor) \
             -> Union[List[List[NestedSequenceLabel]], List[NestedSequenceLabel]]:
         # output from rnn [batch, length, tag_space]
-        output = self._get_rnn_output(input_ids, input_mask, first_sub_tokens)
+        output = self._get_rnn_output(input_ids, input_mask, first_sub_tokens, mask=mask)
 
         batch, length, _ = output.size()
 
