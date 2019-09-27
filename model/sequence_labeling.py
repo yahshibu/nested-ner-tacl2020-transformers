@@ -87,15 +87,16 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
     def _get_rnn_output(self, input_ids: Tensor, input_mask: Tensor, first_sub_tokens: List[List[int]],
                         mask: Tensor = None) -> Tensor:
         # [batch, length, word_dim]
-        if self.fine_tune:
-            sequence_output, _ = self.bert(input_ids, attention_mask=input_mask, output_all_encoded_layers=False)
-        else:
-            encoded_layers, _ = self.bert(input_ids, attention_mask=input_mask, output_all_encoded_layers=True)
-            sequence_output = torch.cat(tuple(encoded_layers[-self.bert_layers:]), 2).detach()
-        batch, _, word_dim = sequence_output.size()
-        input = sequence_output.new_zeros((batch, max([len(fst) for fst in first_sub_tokens]), word_dim))
-        for i, fst in enumerate(first_sub_tokens):
-            input[i, :len(fst), :] = sequence_output[i, fst, :]
+        with torch.set_grad_enabled(self.fine_tune and torch.is_grad_enabled()):
+            if self.fine_tune:
+                sequence_output, _ = self.bert(input_ids, attention_mask=input_mask, output_all_encoded_layers=False)
+            else:
+                encoded_layers, _ = self.bert(input_ids, attention_mask=input_mask, output_all_encoded_layers=True)
+                sequence_output = torch.cat(tuple(encoded_layers[-self.bert_layers:]), 2).detach()
+            batch, _, word_dim = sequence_output.size()
+            input = sequence_output.new_zeros((batch, max([len(fst) for fst in first_sub_tokens]), word_dim))
+            for i, fst in enumerate(first_sub_tokens):
+                input[i, :len(fst), :] = sequence_output[i, fst, :]
         # output from rnn [batch, length, hidden_size]
         output, hn = self.rnn(input, mask)
 
