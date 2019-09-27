@@ -51,24 +51,39 @@ class Token:
         self.end: int = end
 
 
+class Sentence:
+
+    def __init__(self, text: str, begin: int, end: int) -> None:
+        self.text: str = text
+        self.begin: int = begin
+        self.end: int = end
+        self.tokens: List[Token] = None
+
+
 class Tokenizer:
 
     def __init__(self) -> None:
         os.environ['CORENLP_HOME'] = '{}/stanford-corenlp-full-2018-10-05'.format(os.environ['HOME'])
-        self.client = CoreNLPClient(annotators=['ssplit'])
-        self.client.ensure_alive()
+        self.splitter_client = CoreNLPClient(annotators=['ssplit'],
+                                             properties={'tokenize.options': 'ptb3Escaping=false,invertible=true'})
+        self.splitter_client.ensure_alive()
         self.do_lower_case = '-cased' not in config.bert_model
         self.basic_tokenizer: BasicTokenizer \
             = BertTokenizer.from_pretrained(config.bert_model, do_lower_case=self.do_lower_case).basic_tokenizer
 
-    def tokenize(self, doc: str) -> List[List[Token]]:
-        corenlp_annotation = self.client.annotate(doc)
+    def tokenize(self, doc: str) -> List[Sentence]:
+        splitter_annotation = self.splitter_client.annotate(doc)
         sentences = []
-        for sentence in corenlp_annotation.sentence:
+        for sentence in splitter_annotation.sentence:
             text = doc[sentence.characterOffsetBegin:sentence.characterOffsetEnd]
+            begin = sentence.characterOffsetBegin
+            end = sentence.characterOffsetEnd
+            sentences.append(Sentence(text, begin, end))
+        sentences = self.fix_split(sentences)
+        for sentence in sentences:
+            text = sentence.text
             if self.do_lower_case:
                 text = text.lower()
-            offset = sentence.characterOffsetBegin
             bert_tokens = self.basic_tokenizer.tokenize(text)
             begin = 0
             tokens = []
@@ -76,11 +91,39 @@ class Tokenizer:
                 word = bert_token
                 begin = text.index(word, begin)
                 end = begin + len(word)
-                tokens.append(Token(word, begin + offset, end + offset))
+                tokens.append(Token(word, sentence.begin + begin, sentence.begin + end))
                 begin = end
-            if len(tokens) > 0:
-                sentences.append(tokens)
+            assert len(tokens) > 0
+            sentence.tokens = tokens
         return sentences
+
+    @staticmethod
+    def fix_split(sentences: List[Sentence]) -> List[Sentence]:
+        result = []
+        i = 0
+        while i < len(sentences):
+            sentence = sentences[i]
+            while sentence is not None:
+                if i < len(sentences) - 1:
+                    next_sentence = sentences[i + 1]
+                else:
+                    next_sentence = None
+                if '\n\n' in sentence.text:
+                    index = sentence.text.index('\n\n')
+                    new_sentence = Sentence(sentence.text[:index], sentence.begin, sentence.begin + index)
+                    result.append(new_sentence)
+                    index += re.search(r'[\n\t ]+', sentence.text[index:]).end()
+                    sentence.text = sentence.text[index:]
+                    sentence.begin += index
+                elif next_sentence is not None and next_sentence.begin == sentence.end:
+                    sentence.text += next_sentence.text
+                    sentence.end = next_sentence.end
+                    i += 1
+                else:
+                    result.append(sentence)
+                    sentence = None
+            i += 1
+        return result
 
 
 class Label:
@@ -201,8 +244,8 @@ def parse_document(basename: str, tokenizer: Tokenizer) -> List[str]:
         doc_tmp = re.sub(r'<[^>]+>', '', doc_org)
         doc_tmp = re.sub(r'(\S+)\n(\S[^:])', r'\1 \2', doc_tmp)
 
-        bi = doc_org.index(TEXT_BEGIN_TAG)
-        ei = doc_org.index(TEXT_END_TAG) + len(TEXT_END_TAG)
+        bi = doc_org.index(TEXT_BEGIN_TAG) + len(TEXT_BEGIN_TAG)
+        ei = doc_org.index(TEXT_END_TAG)
         doc_modified = re.sub(r'<[^>]+>', '', doc_org[bi:ei])
         doc_modified = re.sub(r'(\S+)\n(\S[^:])', r'\1 \2', doc_modified)
 
@@ -237,7 +280,9 @@ def parse_document(basename: str, tokenizer: Tokenizer) -> List[str]:
     output_lines = []
     for sentence in sentences:
 
-        tokens = list(sentence)
+        tokens = list()
+        for token in sentence.tokens:
+            tokens.append(token)
 
         words = list()
         for token in tokens:

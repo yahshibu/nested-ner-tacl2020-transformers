@@ -36,7 +36,7 @@ class Reader:
                 if line == "":  # last few blank lines
                     break
 
-                raw_tokens = line.split()
+                raw_tokens = line.split(' ')
                 tokens = raw_tokens
                 chars = [list(t) for t in raw_tokens]
 
