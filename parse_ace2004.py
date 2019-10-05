@@ -73,11 +73,13 @@ class Tokenizer:
 
     def tokenize(self, doc: str) -> List[Sentence]:
         splitter_annotation = self.splitter_client.annotate(doc)
+        end = 0
         sentences = []
         for sentence in splitter_annotation.sentence:
-            text = doc[sentence.characterOffsetBegin:sentence.characterOffsetEnd]
-            begin = sentence.characterOffsetBegin
-            end = sentence.characterOffsetEnd
+            begin = doc.index(sentence.token[0].originalText, end)
+            for token in sentence.token:
+                end = doc.index(token.originalText, end) + len(token.originalText)
+            text = doc[begin:end]
             sentences.append(Sentence(text, begin, end))
         sentences = self.fix_split(sentences)
         for sentence in sentences:
@@ -85,14 +87,13 @@ class Tokenizer:
             if self.do_lower_case:
                 text = text.lower()
             bert_tokens = self.basic_tokenizer.tokenize(text)
-            begin = 0
+            end = 0
             tokens = []
             for bert_token in bert_tokens:
                 word = bert_token
-                begin = text.index(word, begin)
+                begin = text.index(word, end)
                 end = begin + len(word)
                 tokens.append(Token(word, sentence.begin + begin, sentence.begin + end))
-                begin = end
             assert len(tokens) > 0
             sentence.tokens = tokens
         return sentences
@@ -103,11 +104,8 @@ class Tokenizer:
         i = 0
         while i < len(sentences):
             sentence = sentences[i]
-            while sentence is not None:
-                if i < len(sentences) - 1:
-                    next_sentence = sentences[i + 1]
-                else:
-                    next_sentence = None
+            while True:
+                next_sentence = sentences[i + 1] if i < len(sentences) - 1 else None
                 if '\n\n' in sentence.text:
                     index = sentence.text.index('\n\n')
                     new_sentence = Sentence(sentence.text[:index], sentence.begin, sentence.begin + index)
@@ -121,7 +119,7 @@ class Tokenizer:
                     i += 1
                 else:
                     result.append(sentence)
-                    sentence = None
+                    break
             i += 1
         return result
 
@@ -193,10 +191,7 @@ def parse_document(basename: str, tokenizer: Tokenizer) -> List[str]:
         entity_flag = False
         extent_flag = False
         tag = None
-        while True:
-            line = f.readline()
-            if not line:
-                break
+        for line in f:
 
             if line.find(ENTITY_BEGIN_TAG) > -1:
                 entity_flag = True
@@ -221,10 +216,13 @@ def parse_document(basename: str, tokenizer: Tokenizer) -> List[str]:
                         while line.find(CHARSEQ_END_TAG) < 0:
                             mention += line[bi:].strip() + ' '
                             bi = 0
-                            line = f.readline()
+                            line = next(f)
                         ei = line.index(CHARSEQ_END_TAG)
                         mention += line[bi:ei].strip()
-                        mention = mention.replace('  ', ' ').replace('&AMP;', '&').replace('&amp;', '&')
+                        mention = mention.replace('\n', ' ')
+                        while '  ' in mention:
+                            mention = mention.replace('  ', ' ')
+                        mention = mention.replace('&AMP;', '&').replace('&amp;', '&')
                         entity_annotation = EntityAnnotation(start, end, tag, mention)
                         entity_annotations.append(entity_annotation)
 
@@ -242,26 +240,16 @@ def parse_document(basename: str, tokenizer: Tokenizer) -> List[str]:
         doc_org = f.read()
 
         doc_tmp = re.sub(r'<[^>]+>', '', doc_org)
-        doc_tmp = re.sub(r'(\S+)\n(\S[^:])', r'\1 \2', doc_tmp)
 
         bi = doc_org.index(TEXT_BEGIN_TAG) + len(TEXT_BEGIN_TAG)
         ei = doc_org.index(TEXT_END_TAG)
         doc_modified = re.sub(r'<[^>]+>', '', doc_org[bi:ei])
-        doc_modified = re.sub(r'(\S+)\n(\S[^:])', r'\1 \2', doc_modified)
 
         offset = doc_tmp.index(doc_modified)
 
         index = 0
-        while len(doc_modified) > 0 and (doc_modified[0] == '\n' or doc_modified[0] == ' '):
-            doc_modified = doc_modified[1:]
-            offset += 1
         while index < len(doc_modified):
-            while 0 < index < len(doc_modified) - 1 \
-                    and (doc_modified[index-1] == '\n' or doc_modified[index-1] == ' ') \
-                    and (doc_modified[index] == '\n' or doc_modified[index] == ' '):
-                doc_modified = doc_modified[:index] + doc_modified[index+1:]
-                offset += 1
-            if doc_modified[index:index+5] == '&AMP;' or doc_modified[index:index+5] == '&amp;':
+            if doc_modified[index:index+5] in ['&AMP;', '&amp;']:
                 doc_modified = doc_modified[:index] + '&' + doc_modified[index+5:]
                 offset += 4
             index_map[index+offset] = index
@@ -273,7 +261,12 @@ def parse_document(basename: str, tokenizer: Tokenizer) -> List[str]:
     for entity_annotation in entity_annotations:
         entity_annotation.start = index_map[entity_annotation.start]
         entity_annotation.end = index_map[entity_annotation.end]
-        assert (entity_annotation.mention == doc_modified[entity_annotation.start:entity_annotation.end])
+        mention = doc_modified[entity_annotation.start:entity_annotation.end]
+        mention = mention.replace('\n', ' ')
+        while '  ' in mention:
+            mention = mention.replace('  ', ' ')
+        mention = mention.replace('&AMP;', '&').replace('&amp;', '&')
+        assert (entity_annotation.mention == mention)
 
     sentences = tokenizer.tokenize(doc_modified)
 

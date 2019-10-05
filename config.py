@@ -35,7 +35,7 @@ class Config:
         self.clip_norm: int = 5
 
         # for early stop
-        self.lr_patience: int = 5 if self.opt != Optimizer.SGD else 3
+        self.lr_patience: int = 3 if self.opt != Optimizer.SGD else 5
 
         self.data_path: str = self.root_path + "/data/{}".format(self.data_set)
         self.train_data_path: str = self.data_path + "_train.pkl"

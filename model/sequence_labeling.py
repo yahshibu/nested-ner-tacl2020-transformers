@@ -72,13 +72,13 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
 
     def reset_parameters(self) -> None:
         for name, parameter in self.rnn.named_parameters():
-            torch.nn.init.constant_(parameter, 0.)
+            nn.init.constant_(parameter, 0.)
             if name.find('weight_ih') > 0:
                 if name.startswith('cell0.weight_ih') or name.startswith('cell1.weight_ih'):
                     bound = (6. / (self.rnn.input_size + self.rnn.hidden_size)) ** 0.5
                 else:
                     bound = (6. / ((2 * self.rnn.hidden_size) + self.rnn.hidden_size)) ** 0.5
-                torch.nn.init.uniform_(parameter, -bound, bound)
+                nn.init.uniform_(parameter, -bound, bound)
                 parameter.data[:2, :, :] = 0.
                 parameter.data[3:, :, :] = 0.
             if name.find('bias_hh') > 0:
