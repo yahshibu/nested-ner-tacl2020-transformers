@@ -18,7 +18,7 @@ class Reader:
         self.bert_tokenizer: BertTokenizer = BertTokenizer.from_pretrained(bert_model,
                                                                            do_lower_case='-cased' not in bert_model)
 
-        self.sub_word_alphabet: Alphabet = None
+        self.subword_alphabet: Alphabet = None
         self.label_alphabet: Alphabet = None
 
         self.train: List[SentInst] = None
@@ -83,12 +83,12 @@ class Reader:
                 num_mention += len(sentInst.entities)
             print("# mentions: {}".format(num_mention))
 
-        self.sub_word_alphabet = Alphabet(self.bert_tokenizer.vocab, 0)
+        self.subword_alphabet = Alphabet(self.bert_tokenizer.vocab, 0)
         self.label_alphabet = Alphabet(label_set, 0)
 
     @staticmethod
     def pad_batches(input_ids_batches: List[List[List[int]]],
-                    first_sub_tokens_batches: List[List[List[int]]]) \
+                    first_subtokens_batches: List[List[List[int]]]) \
             -> Tuple[List[List[List[int]]],
                      List[List[List[int]]],
                      List[List[List[bool]]]]:
@@ -97,12 +97,12 @@ class Reader:
         input_mask_batches = []
         mask_batches = []
 
-        all_batches = list(zip(input_ids_batches, first_sub_tokens_batches))
-        for input_ids_batch, first_sub_tokens_batch in all_batches:
+        all_batches = list(zip(input_ids_batches, first_subtokens_batches))
+        for input_ids_batch, first_subtokens_batch in all_batches:
 
             batch_len = len(input_ids_batch)
-            max_sub_tokens_num = max([len(input_ids) for input_ids in input_ids_batch])
-            max_sent_len = max([len(first_sub_tokens) for first_sub_tokens in first_sub_tokens_batch])
+            max_subtokens_num = max([len(input_ids) for input_ids in input_ids_batch])
+            max_sent_len = max([len(first_subtokens) for first_subtokens in first_subtokens_batch])
 
             padded_input_ids_batch = []
             input_mask_batch = []
@@ -110,15 +110,15 @@ class Reader:
 
             for i in range(batch_len):
 
-                sub_tokens_num = len(input_ids_batch[i])
-                sent_len = len(first_sub_tokens_batch[i])
+                subtokens_num = len(input_ids_batch[i])
+                sent_len = len(first_subtokens_batch[i])
 
-                padded_sub_token_vec = input_ids_batch[i].copy()
-                padded_sub_token_vec.extend([0] * (max_sub_tokens_num - sub_tokens_num))
-                input_mask = [1] * sub_tokens_num + [0] * (max_sub_tokens_num - sub_tokens_num)
+                padded_subtoken_vec = input_ids_batch[i].copy()
+                padded_subtoken_vec.extend([0] * (max_subtokens_num - subtokens_num))
+                input_mask = [1] * subtokens_num + [0] * (max_subtokens_num - subtokens_num)
                 mask = [True] * sent_len + [False] * (max_sent_len - sent_len)
 
-                padded_input_ids_batch.append(padded_sub_token_vec)
+                padded_input_ids_batch.append(padded_subtoken_vec)
                 input_mask_batch.append(input_mask)
                 mask_batch.append(mask)
 
@@ -134,53 +134,63 @@ class Reader:
         ret_list = []
 
         for sent_list in [self.train, self.dev, self.test]:
-            sub_token_dic_dic = defaultdict(lambda: defaultdict(list))
-            first_sub_token_dic_dic = defaultdict(lambda: defaultdict(list))
+            subtoken_dic_dic = defaultdict(lambda: defaultdict(list))
+            first_subtoken_dic_dic = defaultdict(lambda: defaultdict(list))
+            last_subtoken_dic_dic = defaultdict(lambda: defaultdict(list))
             label_dic_dic = defaultdict(lambda: defaultdict(list))
 
             this_input_ids_batches = []
-            this_first_sub_tokens_batches = []
+            this_first_subtokens_batches = []
+            this_last_subtokens_batches = []
             this_label_batches = []
 
             for sentInst in sent_list:
 
-                sub_token_vec = []
-                first_sub_token_vec = []
-                sub_token_vec.extend(bert_tokenizer.convert_tokens_to_ids([CLS]))
+                subtoken_vec = []
+                first_subtoken_vec = []
+                last_subtoken_vec = []
+                subtoken_vec.extend(bert_tokenizer.convert_tokens_to_ids([CLS]))
                 for t in sentInst.tokens:
                     st = bert_tokenizer.tokenize(t)
-                    first_sub_token_vec.append(len(sub_token_vec))
-                    sub_token_vec.extend(bert_tokenizer.convert_tokens_to_ids(st))
-                sub_token_vec.extend(bert_tokenizer.convert_tokens_to_ids([SEP]))
+                    first_subtoken_vec.append(len(subtoken_vec))
+                    subtoken_vec.extend(bert_tokenizer.convert_tokens_to_ids(st))
+                    last_subtoken_vec.append(len(subtoken_vec))
+                subtoken_vec.extend(bert_tokenizer.convert_tokens_to_ids([SEP]))
 
                 label_list = [(u[0], u[1], self.label_alphabet.get_index(u[2])) for u in sentInst.entities]
 
-                sub_token_dic_dic[len(sentInst.tokens)][len(sub_token_vec)].append(sub_token_vec)
-                first_sub_token_dic_dic[len(sentInst.tokens)][len(sub_token_vec)].append(first_sub_token_vec)
-                label_dic_dic[len(sentInst.tokens)][len(sub_token_vec)].append(label_list)
+                subtoken_dic_dic[len(sentInst.tokens)][len(subtoken_vec)].append(subtoken_vec)
+                first_subtoken_dic_dic[len(sentInst.tokens)][len(subtoken_vec)].append(first_subtoken_vec)
+                last_subtoken_dic_dic[len(sentInst.tokens)][len(subtoken_vec)].append(last_subtoken_vec)
+                label_dic_dic[len(sentInst.tokens)][len(subtoken_vec)].append(label_list)
 
             input_ids_batches = []
-            first_sub_tokens_batches = []
+            first_subtokens_batches = []
+            last_subtokens_batches = []
             label_batches = []
-            for length1 in sorted(sub_token_dic_dic.keys(), reverse=True):
-                for length2 in sorted(sub_token_dic_dic[length1].keys(), reverse=True):
-                    input_ids_batches.extend(sub_token_dic_dic[length1][length2])
-                    first_sub_tokens_batches.extend(first_sub_token_dic_dic[length1][length2])
+            for length1 in sorted(subtoken_dic_dic.keys(), reverse=True):
+                for length2 in sorted(subtoken_dic_dic[length1].keys(), reverse=True):
+                    input_ids_batches.extend(subtoken_dic_dic[length1][length2])
+                    first_subtokens_batches.extend(first_subtoken_dic_dic[length1][length2])
+                    last_subtokens_batches.extend(last_subtoken_dic_dic[length1][length2])
                     label_batches.extend(label_dic_dic[length1][length2])
 
             [this_input_ids_batches.append(input_ids_batches[i:i + batch_size])
              for i in range(0, len(input_ids_batches), batch_size)]
-            [this_first_sub_tokens_batches.append(first_sub_tokens_batches[i:i + batch_size])
-             for i in range(0, len(first_sub_tokens_batches), batch_size)]
+            [this_first_subtokens_batches.append(first_subtokens_batches[i:i + batch_size])
+             for i in range(0, len(first_subtokens_batches), batch_size)]
+            [this_last_subtokens_batches.append(last_subtokens_batches[i:i + batch_size])
+             for i in range(0, len(last_subtokens_batches), batch_size)]
             [this_label_batches.append(label_batches[i:i + batch_size])
              for i in range(0, len(label_batches), batch_size)]
 
             this_input_ids_batches, this_input_mask_batches, this_mask_batches \
-                = self.pad_batches(this_input_ids_batches, this_first_sub_tokens_batches)
+                = self.pad_batches(this_input_ids_batches, this_first_subtokens_batches)
 
             ret_list.append((this_input_ids_batches,
                              this_input_mask_batches,
-                             this_first_sub_tokens_batches,
+                             this_first_subtokens_batches,
+                             this_last_subtokens_batches,
                              this_label_batches,
                              this_mask_batches))
 
@@ -193,8 +203,8 @@ class Reader:
         self.gen_dic()
 
     def debug_single_sample(self,
-                            sub_token: List[int],
+                            subtoken: List[int],
                             label_list: List[Tuple[int, int, int]]) -> None:
-        print(" ".join([self.sub_word_alphabet.get_instance(t) for t in sub_token]))
+        print(" ".join([self.subword_alphabet.get_instance(t) for t in subtoken]))
         for label in label_list:
             print(label[0], label[1], self.label_alphabet.get_instance(label[2]))

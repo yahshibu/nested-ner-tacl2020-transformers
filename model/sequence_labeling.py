@@ -84,8 +84,9 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
             if name.find('bias_hh') > 0:
                 parameter.data[1, :] = 1.
 
-    def _get_rnn_output(self, input_ids: Tensor, input_mask: Tensor, first_sub_tokens: List[List[int]],
-                        mask: Tensor = None) -> Tensor:
+    def _get_rnn_output(self, input_ids: Tensor, input_mask: Tensor,
+                        first_subtokens: List[List[int]], last_subtokens: List[List[int]], mask: Tensor = None) \
+            -> Tensor:
         # [batch, length, word_dim]
         with torch.set_grad_enabled(self.fine_tune and torch.is_grad_enabled()):
             if self.fine_tune:
@@ -94,9 +95,10 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
                 encoded_layers, _ = self.bert(input_ids, attention_mask=input_mask, output_all_encoded_layers=True)
                 sequence_output = torch.cat(tuple(encoded_layers[-self.bert_layers:]), 2).detach()
             batch, _, word_dim = sequence_output.size()
-            input = sequence_output.new_zeros((batch, max([len(fst) for fst in first_sub_tokens]), word_dim))
-            for i, fst in enumerate(first_sub_tokens):
-                input[i, :len(fst), :] = sequence_output[i, fst, :]
+            input = sequence_output.new_zeros((batch, max([len(fst) for fst in first_subtokens]), word_dim))
+            for i, subtokens_list_tuple in enumerate(zip(first_subtokens, last_subtokens)):
+                for j, subtokens_tuple in enumerate(zip(subtokens_list_tuple[0], subtokens_list_tuple[1])):
+                    input[i, j, :] = torch.mean(sequence_output[i, subtokens_tuple[0]:subtokens_tuple[1], :], dim=0)
         # output from rnn [batch, length, hidden_size]
         output, hn = self.rnn(input, mask)
 
@@ -106,10 +108,11 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
 
         return output
 
-    def forward(self, input_ids: Tensor, input_mask: Tensor, first_sub_tokens: List[List[int]],
+    def forward(self, input_ids: Tensor, input_mask: Tensor,
+                first_subtokens: List[List[int]], last_subtokens: List[List[int]],
                 target: Union[List[List[NestedSequenceLabel]], List[NestedSequenceLabel]], mask: Tensor) -> Tensor:
         # output from rnn [batch, length, tag_space]
-        output = self._get_rnn_output(input_ids, input_mask, first_sub_tokens, mask=mask)
+        output = self._get_rnn_output(input_ids, input_mask, first_subtokens, last_subtokens, mask=mask)
 
         # [batch, length, num_label, num_label]
         batch, length, _ = output.size()
@@ -146,10 +149,11 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
 
         return loss / batch
 
-    def predict(self, input_ids: Tensor, input_mask: Tensor, first_sub_tokens: List[List[int]], mask: Tensor) \
+    def predict(self, input_ids: Tensor, input_mask: Tensor,
+                first_subtokens: List[List[int]], last_subtokens: List[List[int]], mask: Tensor) \
             -> Union[List[List[NestedSequenceLabel]], List[NestedSequenceLabel]]:
         # output from rnn [batch, length, tag_space]
-        output = self._get_rnn_output(input_ids, input_mask, first_sub_tokens, mask=mask)
+        output = self._get_rnn_output(input_ids, input_mask, first_subtokens, last_subtokens, mask=mask)
 
         batch, length, _ = output.size()
 

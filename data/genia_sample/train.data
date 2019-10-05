@@ -1,144 +1,144 @@
-IL-2 gene expression and NF-kappa B activation through CD28 requires reactive oxygen production by 5-lipoxygenase .
+il-2 gene expression and nf-kappa b activation through cd28 requires reactive oxygen production by 5-lipoxygenase .
 0,2 G#DNA|4,6 G#protein|8,9 G#protein|14,15 G#protein
 
-Activation of the CD28 surface receptor provides a major costimulatory signal for T cell activation resulting in enhanced production of interleukin-2 ( IL-2 ) and cell proliferation .
+activation of the cd28 surface receptor provides a major costimulatory signal for t cell activation resulting in enhanced production of interleukin-2 ( il-2 ) and cell proliferation .
 3,4 G#protein|3,6 G#protein|20,21 G#protein|22,23 G#protein
 
-In primary T lymphocytes we show that CD28 ligation leads to the rapid intracellular formation of reactive oxygen intermediates ( ROIs ) which are required for CD28 -mediated activation of the NF-kappa B / CD28 -responsive complex and IL-2 expression .
+in primary t lymphocytes we show that cd28 ligation leads to the rapid intracellular formation of reactive oxygen intermediates ( rois ) which are required for cd28 -mediated activation of the nf-kappa b / cd28 -responsive complex and il-2 expression .
 1,4 G#cell_type|7,8 G#protein|26,27 G#protein|31,33 G#protein|34,35 G#protein|34,37 G#protein|38,39 G#protein
 
-Delineation of the CD28 signaling cascade was found to involve protein tyrosine kinase activity , followed by the activation of phospholipase A2 and 5-lipoxygenase .
+delineation of the cd28 signaling cascade was found to involve protein tyrosine kinase activity , followed by the activation of phospholipase a2 and 5-lipoxygenase .
 3,4 G#protein|10,13 G#protein|20,22 G#protein|23,24 G#protein
 
-Our data suggest that lipoxygenase metabolites activate ROI formation which then induce IL-2 expression via NF-kappa B activation .
+our data suggest that lipoxygenase metabolites activate roi formation which then induce il-2 expression via nf-kappa b activation .
 4,5 G#protein|4,6 G#protein|12,13 G#protein|15,17 G#protein
 
-These findings should be useful for therapeutic strategies and the development of immunosuppressants targeting the CD28 costimulatory pathway .
+these findings should be useful for therapeutic strategies and the development of immunosuppressants targeting the cd28 costimulatory pathway .
 15,16 G#protein
 
-The peri-kappa B site mediates human immunodeficiency virus type 2 enhancer activation in monocytes but not in T cells .
+the peri-kappa b site mediates human immunodeficiency virus type 2 enhancer activation in monocytes but not in t cells .
 1,4 G#DNA|5,11 G#DNA|13,14 G#cell_type|17,19 G#cell_type
 
-Human immunodeficiency virus type 2 ( HIV-2 ) , like HIV-1 , causes AIDS and is associated with AIDS cases primarily in West Africa .
+human immunodeficiency virus type 2 ( hiv-2 ) , like hiv-1 , causes aids and is associated with aids cases primarily in west africa .
 
 
-HIV-1 and HIV-2 display significant differences in nucleic acid sequence and in the natural history of clinical disease .
+hiv-1 and hiv-2 display significant differences in nucleic acid sequence and in the natural history of clinical disease .
 7,10 G#DNA
 
-Consistent with these differences , we have previously demonstrated that the enhancer/promoter region of HIV-2 functions quite differently from that of HIV-1 .
+consistent with these differences , we have previously demonstrated that the enhancer/promoter region of hiv-2 functions quite differently from that of hiv-1 .
 11,13 G#DNA
 
-Whereas activation of the HIV-1 enhancer following T-cell stimulation is mediated largely through binding of the transcription factor NF-kappa B to two adjacent kappa B sites in the HIV-1 long terminal repeat , activation of the HIV-2 enhancer in monocytes and T cells is dependent on four cis-acting elements : a single kappa B site , two purine-rich binding sites , PuB1 and PuB2 , and a pets site .
+whereas activation of the hiv-1 enhancer following t-cell stimulation is mediated largely through binding of the transcription factor nf-kappa b to two adjacent kappa b sites in the hiv-1 long terminal repeat , activation of the hiv-2 enhancer in monocytes and t cells is dependent on four cis-acting elements : a single kappa b site , two purine-rich binding sites , pub1 and pub2 , and a pets site .
 4,6 G#DNA|16,18 G#protein|18,20 G#protein|23,26 G#DNA|28,32 G#DNA|36,38 G#DNA|39,40 G#cell_type|41,43 G#cell_type|47,49 G#DNA|52,55 G#DNA|57,60 G#DNA|61,62 G#DNA|63,64 G#DNA|67,69 G#DNA
 
-We have now identified a novel cis-acting element within the HIV-2 enhancer , immediately upstream of the kappa B site , designated peri-kappa B .
+we have now identified a novel cis-acting element within the hiv-2 enhancer , immediately upstream of the kappa b site , designated peri-kappa b .
 6,8 G#DNA|10,12 G#DNA|17,20 G#DNA|22,24 G#DNA
 
-This site is conserved among isolates of HIV-2 and the closely related simian immunodeficiency virus , and transfection assays show this site to mediate HIV-2 enhancer activation following stimulation of monocytic but not T-cell lines .
+this site is conserved among isolates of hiv-2 and the closely related simian immunodeficiency virus , and transfection assays show this site to mediate hiv-2 enhancer activation following stimulation of monocytic but not t-cell lines .
 24,26 G#DNA|30,31 G#cell_line|33,35 G#cell_line
 
-This is the first description of an HIV-2 enhancer element which displays such monocyte specificity , and no comparable enhancer element has been clearly defined for HIV-1 .
+this is the first description of an hiv-2 enhancer element which displays such monocyte specificity , and no comparable enhancer element has been clearly defined for hiv-1 .
 7,10 G#DNA|19,21 G#DNA
 
-While a nuclear factor ( s ) from both peripheral blood monocytes and T cells binds the peri-kappa B site , electrophoretic mobility shift assays suggest that either a different protein binds to this site in monocytes versus T cells or that the protein recognizing this enhancer element undergoes differential modification in monocytes and T cells , thus supporting the transfection data .
+while a nuclear factor ( s ) from both peripheral blood monocytes and t cells binds the peri-kappa b site , electrophoretic mobility shift assays suggest that either a different protein binds to this site in monocytes versus t cells or that the protein recognizing this enhancer element undergoes differential modification in monocytes and t cells , thus supporting the transfection data .
 2,4 G#protein|11,12 G#cell_type|9,12 G#cell_type|13,15 G#cell_type|17,20 G#DNA|36,37 G#cell_type|38,40 G#cell_type|46,48 G#DNA|52,53 G#cell_type|54,56 G#cell_type
 
-Further , while specific constitutive binding to the peri-kappa B site is seen in monocytes , stimulation with phorbol esters induces additional , specific binding .
+further , while specific constitutive binding to the peri-kappa b site is seen in monocytes , stimulation with phorbol esters induces additional , specific binding .
 8,11 G#DNA|14,15 G#cell_type
 
-Understanding the monocyte-specific function of the peri-kappa B factor may ultimately provide insight into the different role monocytes and T cells play in HIV pathogenesis .
+understanding the monocyte-specific function of the peri-kappa b factor may ultimately provide insight into the different role monocytes and t cells play in hiv pathogenesis .
 6,9 G#protein|17,18 G#cell_type|19,21 G#cell_type
 
-E1A gene expression induces susceptibility to killing by NK cells following immortalization but not adenovirus infection of human cells .
+e1a gene expression induces susceptibility to killing by nk cells following immortalization but not adenovirus infection of human cells .
 0,2 G#DNA|8,10 G#cell_type|17,19 G#cell_type
 
-Adenovirus ( Ad ) infection and E1A transfection were used to model changes in susceptibility to NK cell killing caused by transient vs stable E1A expression in human cells .
+adenovirus ( ad ) infection and e1a transfection were used to model changes in susceptibility to nk cell killing caused by transient vs stable e1a expression in human cells .
 6,7 G#protein|24,25 G#protein|27,29 G#cell_type
 
-Only stably transfected target cells exhibited cytolytic susceptibility , despite expression of equivalent levels of E1A proteins in Ad-infected targets .
+only stably transfected target cells exhibited cytolytic susceptibility , despite expression of equivalent levels of e1a proteins in ad-infected targets .
 2,5 G#cell_line|15,17 G#protein|18,20 G#cell_line
 
-The inability of E1A gene products to induce cytolytic susceptibility during infection was not explained by an inhibitory effect of viral infection on otherwise susceptible target cells or by viral gene effects on class I MHC antigen expression on target cells .
+the inability of e1a gene products to induce cytolytic susceptibility during infection was not explained by an inhibitory effect of viral infection on otherwise susceptible target cells or by viral gene effects on class i mhc antigen expression on target cells .
 3,5 G#DNA|25,27 G#cell_type|29,31 G#DNA|33,37 G#protein|39,41 G#cell_type
 
-This differential effect of E1A expression on the cytolytic phenotypes of infected and stably transfected human cells suggests that human NK cells provide an effective immunologic barrier against the in vivo survival and neoplastic progression of E1A-immortalized cells that may emerge from the reservoir of persistently infected cells in the human host .
+this differential effect of e1a expression on the cytolytic phenotypes of infected and stably transfected human cells suggests that human nk cells provide an effective immunologic barrier against the in vivo survival and neoplastic progression of e1a-immortalized cells that may emerge from the reservoir of persistently infected cells in the human host .
 4,5 G#protein|15,17 G#cell_type|20,22 G#cell_type|19,22 G#cell_type|36,38 G#cell_line|45,48 G#cell_type
 
-Distinct signaling properties identify functionally different CD4 epitopes .
+distinct signaling properties identify functionally different cd4 epitopes .
 6,8 G#protein
 
-The CD4 coreceptor interacts with non-polymorphic regions of major histocompatibility complex class II molecules on antigen-presenting cells and contributes to T cell activation .
+the cd4 coreceptor interacts with non-polymorphic regions of major histocompatibility complex class ii molecules on antigen-presenting cells and contributes to t cell activation .
 1,3 G#protein|5,7 G#protein|8,14 G#protein|15,17 G#cell_type
 
-We have investigated the effect of CD4 triggering on T cell activating signals in a lymphoma model using monoclonal antibodies ( mAb ) which recognize different CD4 epitopes .
+we have investigated the effect of cd4 triggering on t cell activating signals in a lymphoma model using monoclonal antibodies ( mab ) which recognize different cd4 epitopes .
 6,7 G#protein|18,20 G#protein|21,22 G#protein|26,28 G#protein
 
-We demonstrate that CD4 triggering delivers signals capable of activating the NF-AT transcription factor which is required for interleukin-2 gene expression .
+we demonstrate that cd4 triggering delivers signals capable of activating the nf-at transcription factor which is required for interleukin-2 gene expression .
 3,4 G#protein|11,14 G#protein|18,19 G#protein
 
-Whereas different anti-CD4 mAb or HIV-1 gp120 could all trigger activation of the protein tyrosine kinases p56lck and p59fyn and phosphorylation of the Shc adaptor protein , which mediates signals to Ras , they differed significantly in their ability to activate NF-AT .
+whereas different anti-cd4 mab or hiv-1 gp120 could all trigger activation of the protein tyrosine kinases p56lck and p59fyn and phosphorylation of the shc adaptor protein , which mediates signals to ras , they differed significantly in their ability to activate nf-at .
 2,4 G#protein|5,7 G#protein|13,16 G#protein|16,17 G#protein|18,19 G#protein|23,26 G#protein|31,32 G#protein|41,42 G#protein
 
-Lack of full activation of NF-AT could be correlated to a dramatically reduced capacity to induce calcium flux and could be complemented with a calcium ionophore .
+lack of full activation of nf-at could be correlated to a dramatically reduced capacity to induce calcium flux and could be complemented with a calcium ionophore .
 5,6 G#protein
 
-The results identify functionally distinct epitopes on the CD4 coreceptor involved in activation of the Ras /protein kinase C and calcium pathways .
+the results identify functionally distinct epitopes on the cd4 coreceptor involved in activation of the ras /protein kinase c and calcium pathways .
 5,6 G#protein|8,10 G#protein|15,16 G#protein|16,19 G#protein|15,19 G#protein
 
-Ligand-dependent repression of the erythroid transcription factor GATA-1 by the estrogen receptor .
+ligand-dependent repression of the erythroid transcription factor gata-1 by the estrogen receptor .
 4,7 G#protein|7,8 G#protein|10,12 G#protein
 
-High-dose estrogen administration induces anemia in mammals .
+high-dose estrogen administration induces anemia in mammals .
 
 
-In chickens , estrogens stimulate outgrowth of bone marrow-derived erythroid progenitor cells and delay their maturation .
+in chickens , estrogens stimulate outgrowth of bone marrow-derived erythroid progenitor cells and delay their maturation .
 7,12 G#cell_type
 
-This delay is associated with down-regulation of many erythroid cell-specific genes , including alpha- and beta- globin , band 3 , band 4.1 , and the erythroid cell-specific histone H5 .
+this delay is associated with down-regulation of many erythroid cell-specific genes , including alpha- and beta- globin , band 3 , band 4.1 , and the erythroid cell-specific histone h5 .
 8,11 G#DNA|13,17 G#DNA|18,20 G#DNA|21,23 G#DNA|26,29 G#protein|29,30 G#protein
 
-We show here that estrogens also reduce the number of erythroid progenitor cells in primary human bone marrow cultures .
+we show here that estrogens also reduce the number of erythroid progenitor cells in primary human bone marrow cultures .
 10,13 G#cell_type|14,19 G#cell_line
 
-To address potential mechanisms by which estrogens suppress erythropoiesis , we have examined their effects on GATA-1 , an erythroid transcription factor that participates in the regulation of the majority of erythroid cell-specific genes and is necessary for full maturation of erythrocytes .
+to address potential mechanisms by which estrogens suppress erythropoiesis , we have examined their effects on gata-1 , an erythroid transcription factor that participates in the regulation of the majority of erythroid cell-specific genes and is necessary for full maturation of erythrocytes .
 16,17 G#protein|19,22 G#protein|31,34 G#DNA|41,42 G#cell_type
 
-We demonstrate that the transcriptional activity of GATA-1 is strongly repressed by the estrogen receptor ( ER ) in a ligand-dependent manner and that this repression is reversible in the presence of 4-hydroxytamoxifen .
+we demonstrate that the transcriptional activity of gata-1 is strongly repressed by the estrogen receptor ( er ) in a ligand-dependent manner and that this repression is reversible in the presence of 4-hydroxytamoxifen .
 7,8 G#protein|13,15 G#protein|16,17 G#protein
 
-ER -mediated repression of GATA-1 activity occurs on an artificial promoter containing a single GATA-binding site , as well as in the context of an intact promoter which is normally regulated by GATA-1 .
+er -mediated repression of gata-1 activity occurs on an artificial promoter containing a single gata-binding site , as well as in the context of an intact promoter which is normally regulated by gata-1 .
 0,1 G#protein|4,5 G#protein|9,11 G#DNA|14,16 G#DNA|25,27 G#DNA|32,33 G#protein
 
-GATA-1 and ER bind to each other in vitro in the absence of DNA .
+gata-1 and er bind to each other in vitro in the absence of dna .
 0,1 G#protein|2,3 G#protein
 
-In coimmunoprecipitation experiments using transfected COS cells , GATA-1 and ER associate in a ligand-dependent manner .
+in coimmunoprecipitation experiments using transfected cos cells , gata-1 and er associate in a ligand-dependent manner .
 5,7 G#cell_line|8,9 G#protein|10,11 G#protein
 
-Mapping experiments indicate that GATA-1 and the ER form at least two contacts , which involve the finger region and the N-terminal activation domain of GATA-1 .
+mapping experiments indicate that gata-1 and the er form at least two contacts , which involve the finger region and the n-terminal activation domain of gata-1 .
 4,5 G#protein|7,8 G#protein|21,24 G#protein|25,26 G#protein
 
-We speculate that estrogens exert effects on erythropoiesis by modulating GATA-1 activity through protein-protein interaction with the ER .
+we speculate that estrogens exert effects on erythropoiesis by modulating gata-1 activity through protein-protein interaction with the er .
 10,11 G#protein|17,18 G#protein
 
-( ABSTRACT TRUNCATED AT 250 WORDS )
+( abstract truncated at 250 words )
 
 
-Mouse interleukin-2 receptor alpha gene expression .
+mouse interleukin-2 receptor alpha gene expression .
 1,2 G#protein|0,5 G#DNA
 
-Interleukin-1 and interleukin-2 control transcription via distinct cis-acting elements .
+interleukin-1 and interleukin-2 control transcription via distinct cis-acting elements .
 0,1 G#protein|2,3 G#protein|7,9 G#DNA
 
-We have shown that interleukin-1 ( IL-1 ) and IL-2 control IL-2 receptor alpha ( IL-2R alpha ) gene transcription in CD4-CD8- murine T lymphocyte precursors .
+we have shown that interleukin-1 ( il-1 ) and il-2 control il-2 receptor alpha ( il-2r alpha ) gene transcription in cd4-cd8- murine t lymphocyte precursors .
 4,5 G#protein|6,7 G#protein|9,10 G#protein|11,14 G#protein|15,17 G#protein|11,19 G#DNA|21,25 G#cell_line
 
-Here we map the cis-acting elements that mediate interleukin responsiveness of the mouse IL-2R alpha gene using a thymic lymphoma-derived hybridoma ( PC60 ) .
+here we map the cis-acting elements that mediate interleukin responsiveness of the mouse il-2r alpha gene using a thymic lymphoma-derived hybridoma ( pc60 ) .
 4,6 G#DNA|12,15 G#protein|12,16 G#DNA|18,21 G#cell_line|22,23 G#cell_line
 
-The transcriptional response of the IL-2R alpha gene to stimulation by IL-1 + IL-2 is biphasic .
+the transcriptional response of the il-2r alpha gene to stimulation by il-1 + il-2 is biphasic .
 5,8 G#DNA|11,12 G#protein|13,14 G#protein
 
-IL-1 induces a rapid , protein synthesis-independent appearance of IL-2R alpha mRNA that is blocked by inhibitors of NF-kappa B activation .
+il-1 induces a rapid , protein synthesis-independent appearance of il-2r alpha mrna that is blocked by inhibitors of nf-kappa b activation .
 0,1 G#protein|9,11 G#protein|9,12 G#RNA|18,20 G#protein
 

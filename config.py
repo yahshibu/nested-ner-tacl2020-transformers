@@ -17,7 +17,7 @@ class Config:
         self.label_size: int = None
 
         # for bert
-        self.bert_model: str = 'bert-large-cased'
+        self.bert_model: str = 'bert-large-uncased'
 
         # for lstm
         self.hidden_size: int = 200

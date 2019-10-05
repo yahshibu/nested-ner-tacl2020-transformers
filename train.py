@@ -32,13 +32,15 @@ def get_f1(model: BiRecurrentConvCRF4NestedNER, mode: str, file_path: str = None
         if mode == 'dev':
             batch_zip = zip(dev_input_ids_batches,
                             dev_input_mask_batches,
-                            dev_first_sub_tokens_batches,
+                            dev_first_subtokens_batches,
+                            dev_last_subtokens_batches,
                             dev_label_batches,
                             dev_mask_batches)
         elif mode == 'test':
             batch_zip = zip(test_input_ids_batches,
                             test_input_mask_batches,
-                            test_first_sub_tokens_batches,
+                            test_first_subtokens_batches,
+                            test_last_subtokens_batches,
                             test_label_batches,
                             test_mask_batches)
         else:
@@ -48,7 +50,8 @@ def get_f1(model: BiRecurrentConvCRF4NestedNER, mode: str, file_path: str = None
         if file_path is not None:
             f = open(file_path, 'w')
 
-        for input_ids_batch, input_mask_batch, first_sub_tokens_batch, label_batch, mask_batch in batch_zip:
+        for input_ids_batch, input_mask_batch, first_subtokens_batch, last_subtokens_batch, label_batch, mask_batch \
+                in batch_zip:
             input_ids_batch_var = Variable(torch.LongTensor(np.array(input_ids_batch)))
             input_mask_batch_var = Variable(torch.LongTensor(np.array(input_mask_batch)))
             mask_batch_var = Variable(torch.ByteTensor(np.array(mask_batch, dtype=np.uint8)))
@@ -59,7 +62,8 @@ def get_f1(model: BiRecurrentConvCRF4NestedNER, mode: str, file_path: str = None
 
             pred_sequence_entities = model.predict(input_ids_batch_var,
                                                    input_mask_batch_var,
-                                                   first_sub_tokens_batch,
+                                                   first_subtokens_batch,
+                                                   last_subtokens_batch,
                                                    mask_batch_var)
             pred_entities = unpack_prediction(model, pred_sequence_entities)
             p_a, p, r_a, r = evaluate(label_batch, pred_entities)
@@ -73,8 +77,8 @@ def get_f1(model: BiRecurrentConvCRF4NestedNER, mode: str, file_path: str = None
             recall += r
 
             if file_path is not None:
-                for input_ids, input_mask, first_sub_tokens, mask, label, preds \
-                        in zip(input_ids_batch, input_mask_batch, first_sub_tokens_batch,
+                for input_ids, input_mask, first_subtokens, last_subtokens, mask, label, preds \
+                        in zip(input_ids_batch, input_mask_batch, first_subtokens_batch, last_subtokens_batch,
                                mask_batch, label_batch, pred_entities):
                     words = []
                     for t, m in zip(input_ids, input_mask):
@@ -85,15 +89,15 @@ def get_f1(model: BiRecurrentConvCRF4NestedNER, mode: str, file_path: str = None
 
                     labels = []
                     for l in sorted(label, key=lambda x: (x[0], x[1], x[2])):
-                        s = first_sub_tokens[l[0]]
-                        e = first_sub_tokens[l[1]] if l[1] < len(first_sub_tokens) else len(words) - 1
+                        s = first_subtokens[l[0]]
+                        e = last_subtokens[l[1] - 1]
                         labels.append("{},{} {}".format(s, e, label_dict.get_instance(l[2])))
                     f.write('|'.join(labels) + '\n')
 
                     labels = []
                     for p in sorted(preds, key=lambda x: (x[0], x[1], x[2])):
-                        s = first_sub_tokens[p[0]]
-                        e = first_sub_tokens[p[1]] if p[1] < len(first_sub_tokens) else len(words) - 1
+                        s = first_subtokens[p[0]]
+                        e = last_subtokens[p[1] - 1]
                         labels.append("{},{} {}".format(s, e, label_dict.get_instance(p[2])))
                     f.write('|'.join(labels) + '\n')
 
@@ -125,7 +129,8 @@ logger = get_logger('Nested Mention', file=log_file_path)
 f = open(config.train_data_path, 'rb')
 train_input_ids_batches, \
     train_input_mask_batches, \
-    train_first_sub_tokens_batches, \
+    train_first_subtokens_batches, \
+    train_last_subtokens_batches, \
     train_label_batches, \
     train_mask_batches \
     = pickle.load(f)
@@ -133,7 +138,8 @@ f.close()
 f = open(config.dev_data_path, 'rb')
 dev_input_ids_batches, \
     dev_input_mask_batches, \
-    dev_first_sub_tokens_batches, \
+    dev_first_subtokens_batches, \
+    dev_last_subtokens_batches, \
     dev_label_batches, \
     dev_mask_batches \
     = pickle.load(f)
@@ -141,7 +147,8 @@ f.close()
 f = open(config.test_data_path, 'rb')
 test_input_ids_batches, \
     test_input_mask_batches, \
-    test_first_sub_tokens_batches, \
+    test_first_subtokens_batches, \
+    test_last_subtokens_batches, \
     test_label_batches, \
     test_mask_batches \
     = pickle.load(f)
@@ -176,7 +183,8 @@ best_per = float('-inf')
 best_loss = float('inf')
 train_all_batches = list(zip(train_input_ids_batches,
                              train_input_mask_batches,
-                             train_first_sub_tokens_batches,
+                             train_first_subtokens_batches,
+                             train_last_subtokens_batches,
                              train_sequence_label_batches,
                              train_mask_batches))
 
@@ -193,8 +201,9 @@ for e_ in range(1, config.epoch + 1):
     start_time = time.time()
     ner_model.train()
     num_back = 0
-    for input_ids_batch, input_mask_batch, first_sub_tokens_batch, label_batch, mask_batch in train_all_batches:
-        batch_len = max([len(first_sub_tokens) for first_sub_tokens in first_sub_tokens_batch])
+    for input_ids_batch, input_mask_batch, first_subtokens_batch, last_subtokens_batch, label_batch, mask_batch \
+            in train_all_batches:
+        batch_len = max([len(first_subtokens) for first_subtokens in first_subtokens_batch])
 
         input_ids_batch_var = Variable(torch.LongTensor(np.array(input_ids_batch)))
         input_mask_batch_var = Variable(torch.LongTensor(np.array(input_mask_batch)))
@@ -205,7 +214,7 @@ for e_ in range(1, config.epoch + 1):
             mask_batch_var = mask_batch_var.cuda()
 
         optimizer.zero_grad()
-        loss = ner_model.forward(input_ids_batch_var, input_mask_batch_var, first_sub_tokens_batch,
+        loss = ner_model.forward(input_ids_batch_var, input_mask_batch_var, first_subtokens_batch, last_subtokens_batch,
                                  label_batch, mask_batch_var)
         loss.backward()
         clip_model_grad(ner_model, config.clip_norm)

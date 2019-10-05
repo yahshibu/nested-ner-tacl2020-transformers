@@ -11,12 +11,14 @@ from util.utils import save_dynamic_config
 def batch_stat(batches: Tuple[List[List[List[int]]],
                               List[List[List[int]]],
                               List[List[List[int]]],
+                              List[List[List[int]]],
                               List[List[List[Tuple[int, int, int]]]],
                               List[List[List[bool]]]]) -> None:
     all_num = 0
     start_num = 0
     end_num = 0
-    for input_ids_batch, input_mask_batch, first_sub_tokens_batch, label_batch, mask_batch in zip(*batches):
+    for input_ids_batch, input_mask_batch, first_subtokens_batch, last_subtokens_batch, label_batch, mask_batch \
+            in zip(*batches):
         for labels in label_batch:
             start_dic = defaultdict(list)
             end_dic = defaultdict(list)

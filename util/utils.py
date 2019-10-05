@@ -43,7 +43,7 @@ def load_dynamic_config(misc_dict: Dict[str, Alphabet]) -> Tuple[Alphabet, Alpha
 
 def save_dynamic_config(reader) -> Dict[str, Alphabet]:
     misc_dict = dict()
-    misc_dict['voc_dict'] = reader.sub_word_alphabet
+    misc_dict['voc_dict'] = reader.subword_alphabet
     misc_dict['label_dict'] = reader.label_alphabet
 
     return misc_dict
