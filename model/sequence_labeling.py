@@ -3,9 +3,9 @@ __maintainer__ = 'takashi'
 
 from typing import List, Union
 import torch
+from torch import Tensor
 import torch.nn as nn
-from torch.tensor import Tensor
-from pytorch_pretrained_bert.modeling import BertModel
+from transformers.modeling_bert import BertModel
 
 from module.crf import ChainCRF4NestedNER
 from module.dropout import VarDropout
@@ -40,6 +40,7 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
         else:
             for name, parameter in self.bert.named_parameters():
                 parameter.requires_grad = False
+            self.bert.encoder.output_hidden_states = True
         # standard dropout
         self.dropout_out: nn.Dropout2d = nn.Dropout2d(p=lstm_dropout)
 
@@ -89,11 +90,11 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
             -> Tensor:
         # [batch, length, word_dim]
         with torch.set_grad_enabled(self.fine_tune and torch.is_grad_enabled()):
+            sequence_output = self.bert(input_ids, attention_mask=input_mask)
             if self.fine_tune:
-                sequence_output, _ = self.bert(input_ids, attention_mask=input_mask, output_all_encoded_layers=False)
+                sequence_output = sequence_output[0]
             else:
-                encoded_layers, _ = self.bert(input_ids, attention_mask=input_mask, output_all_encoded_layers=True)
-                sequence_output = torch.cat(tuple(encoded_layers[-self.bert_layers:]), 2).detach()
+                sequence_output = torch.cat(tuple(sequence_output[2][-self.bert_layers:]), 2).detach()
             batch, _, word_dim = sequence_output.size()
             input = sequence_output.new_zeros((batch, max([len(fst) for fst in first_subtokens]), word_dim))
             for i, subtokens_list_tuple in enumerate(zip(first_subtokens, last_subtokens)):

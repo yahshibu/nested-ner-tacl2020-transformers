@@ -3,8 +3,8 @@ __maintainer__ = 'takashi'
 
 from typing import Tuple, Callable, Union, List
 import torch
+from torch import Tensor
 import torch.nn as nn
-from torch.tensor import Tensor
 
 
 def var_lstm_cell(input: Tensor, hidden: Tuple[Tensor, Tensor], w_ih: Tensor, w_hh: Tensor,

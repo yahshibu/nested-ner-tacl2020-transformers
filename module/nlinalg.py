@@ -2,7 +2,7 @@ __author__ = 'max'
 __maintainer__ = 'takashi'
 
 import torch
-from torch.tensor import Tensor
+from torch import Tensor
 
 
 def logsumexp(x: Tensor, dim: int) -> Tensor:

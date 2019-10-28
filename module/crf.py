@@ -3,9 +3,9 @@ __maintainer__ = 'takashi'
 
 from typing import List, Tuple, Dict
 import torch
+from torch import Tensor
 import torch.nn as nn
 from torch.nn.parameter import Parameter
-from torch.tensor import Tensor
 
 from module.nlinalg import logsumexp
 
@@ -26,7 +26,7 @@ class ChainCRF4NestedNER(nn.Module):
 
         # state weight tensor
         self.state_nn: nn.Linear = nn.Linear(input_size, self.num_labels)
-        self.trans_matrix: Tensor = Parameter(Tensor(self.num_labels, self.num_labels))
+        self.trans_matrix: Tensor = Parameter(Tensor(self.num_labels, self.num_labels), False)
 
         indices_i, index_o, index_eos, index_bos = self.get_indices()
         indices_bs = []

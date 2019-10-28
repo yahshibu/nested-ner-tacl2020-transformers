@@ -1,4 +1,5 @@
 from __future__ import division
+from typing import Optional
 
 from training.utils import Optimizer
 
@@ -13,8 +14,8 @@ class Config:
         self.if_shuffle: bool = True
 
         # override when loading data
-        self.voc_size: int = None
-        self.label_size: int = None
+        self.voc_size: Optional[int] = None
+        self.label_size: Optional[int] = None
 
         # for bert
         self.bert_model: str = 'bert-large-uncased'

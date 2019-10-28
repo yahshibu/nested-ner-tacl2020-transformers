@@ -6,7 +6,6 @@ import numpy as np
 import pickle
 from datetime import datetime
 from random import shuffle
-from torch.autograd import Variable
 import torch
 import torch.cuda
 import torch.nn
@@ -52,9 +51,9 @@ def get_f1(model: BiRecurrentConvCRF4NestedNER, mode: str, file_path: str = None
 
         for input_ids_batch, input_mask_batch, first_subtokens_batch, last_subtokens_batch, label_batch, mask_batch \
                 in batch_zip:
-            input_ids_batch_var = Variable(torch.LongTensor(np.array(input_ids_batch)))
-            input_mask_batch_var = Variable(torch.LongTensor(np.array(input_mask_batch)))
-            mask_batch_var = Variable(torch.ByteTensor(np.array(mask_batch, dtype=np.uint8)))
+            input_ids_batch_var = torch.LongTensor(np.array(input_ids_batch))
+            input_mask_batch_var = torch.LongTensor(np.array(input_mask_batch))
+            mask_batch_var = torch.ByteTensor(np.array(mask_batch, dtype=np.uint8))
             if config.if_gpu:
                 input_ids_batch_var = input_ids_batch_var.cuda()
                 input_mask_batch_var = input_mask_batch_var.cuda()
@@ -205,9 +204,9 @@ for e_ in range(1, config.epoch + 1):
             in train_all_batches:
         batch_len = max([len(first_subtokens) for first_subtokens in first_subtokens_batch])
 
-        input_ids_batch_var = Variable(torch.LongTensor(np.array(input_ids_batch)))
-        input_mask_batch_var = Variable(torch.LongTensor(np.array(input_mask_batch)))
-        mask_batch_var = Variable(torch.ByteTensor(np.array(mask_batch, dtype=np.uint8)))
+        input_ids_batch_var = torch.LongTensor(np.array(input_ids_batch))
+        input_mask_batch_var = torch.LongTensor(np.array(input_mask_batch))
+        mask_batch_var = torch.ByteTensor(np.array(mask_batch, dtype=np.uint8))
         if config.if_gpu:
             input_ids_batch_var = input_ids_batch_var.cuda()
             input_mask_batch_var = input_mask_batch_var.cuda()

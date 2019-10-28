@@ -1,11 +1,11 @@
 __author__ = 'max'
 __maintainer__ = 'takashi'
 
-from typing import Callable, List, Tuple
+from typing import Callable, List, Tuple, Optional
 import math
+from torch import Tensor
 import torch.nn as nn
 from torch.nn.parameter import Parameter
-from torch.tensor import Tensor
 from module.function import variational_rnn as rnn_f
 
 
@@ -100,10 +100,12 @@ class VarMaskedFastLSTM(nn.Module):
                 self.add_module('cell%d' % (layer * num_directions + direction), cell)
 
     def reset_parameters(self) -> None:
+        cell: VarLSTMCell
         for cell in self.all_cells:
             cell.reset_parameters()
 
     def reset_noise(self, batch_size: int) -> None:
+        cell: VarLSTMCell
         for cell in self.all_cells:
             cell.reset_noise(batch_size)
 
@@ -198,11 +200,11 @@ class VarLSTMCell(nn.Module):
         self.input_size: int = input_size
         self.hidden_size: int = hidden_size
         self.bias: bool = bias
-        self.weight_ih: Tensor = Parameter(Tensor(4, input_size, hidden_size))
-        self.weight_hh: Tensor = Parameter(Tensor(4, hidden_size, hidden_size))
+        self.weight_ih: Tensor = Parameter(Tensor(4, input_size, hidden_size), True)
+        self.weight_hh: Tensor = Parameter(Tensor(4, hidden_size, hidden_size), True)
         if bias:
-            self.bias_ih: Tensor = Parameter(Tensor(4, hidden_size))
-            self.bias_hh: Tensor = Parameter(Tensor(4, hidden_size))
+            self.bias_ih: Tensor = Parameter(Tensor(4, hidden_size), True)
+            self.bias_hh: Tensor = Parameter(Tensor(4, hidden_size), True)
         else:
             self.register_parameter('bias_ih', None)
             self.register_parameter('bias_hh', None)
@@ -219,8 +221,8 @@ class VarLSTMCell(nn.Module):
                              "but got {}".format(p_hidden))
         self.p_in: float = p_in
         self.p_hidden: float = p_hidden
-        self.noise_in: Tensor = None
-        self.noise_hidden: Tensor = None
+        self.noise_in: Optional[Tensor] = None
+        self.noise_hidden: Optional[Tensor] = None
 
     def __repr__(self) -> str:
         s = '{name}({input_size}, {hidden_size}'

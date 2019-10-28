@@ -3,7 +3,7 @@ from enum import Enum
 import numpy as np
 import torch.nn
 import torch.optim as optim
-from torch.autograd import Variable
+import torch.optim.optimizer as optimizer
 from adabound import AdaBound
 
 from model.sequence_labeling import NestedSequenceLabel, BiRecurrentConvCRF4NestedNER
@@ -37,7 +37,7 @@ def adjust_learning_rate(lr_scheduler: Union[optim.lr_scheduler.StepLR, optim.lr
 
 
 def create_opt(parameters: Iterator, opt: Optimizer, lr: float = None, l2: float = None, lr_patience: int = None) \
-        -> Tuple[optim.Optimizer, Union[optim.lr_scheduler.StepLR, optim.lr_scheduler.ReduceLROnPlateau]]:
+        -> Tuple[optimizer.Optimizer, Union[optim.lr_scheduler.StepLR, optim.lr_scheduler.ReduceLROnPlateau]]:
     if opt == Optimizer.AdaBound:
         optimizer = AdaBound(parameters, lr=lr if lr is not None else 0.001,
                              weight_decay=l2 if l2 is not None else 0.)
@@ -113,7 +113,7 @@ def pack_target(model: BiRecurrentConvCRF4NestedNER,
                 sequence_label[region_label[1] - 1] = e_id  # E-XXX
                 nested_sequence_label_list.append(
                     region2sequence(region_label[3], region_label[0], region_label[1]))
-        sequence_label = Variable(torch.LongTensor(np.array(sequence_label[start:])))
+        sequence_label = torch.LongTensor(np.array(sequence_label[start:]))
         return NestedSequenceLabel(start, end, sequence_label, nested_sequence_label_list)
 
     nested_sequence_label_batch = []

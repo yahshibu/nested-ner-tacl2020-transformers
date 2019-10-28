@@ -1,6 +1,6 @@
+from torch import Tensor
 import torch.nn as nn
 from torch.nn import functional as f
-from torch.tensor import Tensor
 
 
 class VarDropout(nn.Module):
@@ -33,7 +33,7 @@ class VarDropout(nn.Module):
 
     Examples::
 
-        >>> m = nn.VarDropout(p=0.2)
+        >>> m = VarDropout(p=0.2)
         >>> input = torch.randn(20, 16, 32, 32)
         >>> output = m(input)
 

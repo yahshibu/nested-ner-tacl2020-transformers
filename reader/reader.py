@@ -1,7 +1,7 @@
-from typing import List, Tuple
+from typing import Optional, List, Tuple
 import pdb
 from collections import namedtuple, defaultdict
-from pytorch_pretrained_bert.tokenization import BertTokenizer
+from transformers.tokenization_bert import BertTokenizer
 
 from util.utils import Alphabet
 
@@ -18,12 +18,12 @@ class Reader:
         self.bert_tokenizer: BertTokenizer = BertTokenizer.from_pretrained(bert_model,
                                                                            do_lower_case='-cased' not in bert_model)
 
-        self.subword_alphabet: Alphabet = None
-        self.label_alphabet: Alphabet = None
+        self.subword_alphabet: Optional[Alphabet] = None
+        self.label_alphabet: Optional[Alphabet] = None
 
-        self.train: List[SentInst] = None
-        self.dev: List[SentInst] = None
-        self.test: List[SentInst] = None
+        self.train: Optional[List[SentInst]] = None
+        self.dev: Optional[List[SentInst]] = None
+        self.test: Optional[List[SentInst]] = None
 
     @staticmethod
     def read_file(filename: str, mode: str = 'train') -> List[SentInst]:

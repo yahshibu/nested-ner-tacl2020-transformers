@@ -8,6 +8,7 @@ def get_logger(name: str, level: int = logging.INFO, stream: TextIOWrapper = sys
                formatter: str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s') -> Logger:
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
+    logger.propagate = False
     formatter = logging.Formatter(formatter)
 
     stream_handler = logging.StreamHandler(stream)

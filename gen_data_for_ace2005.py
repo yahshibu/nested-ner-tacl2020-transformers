@@ -32,7 +32,7 @@ def batch_stat(batches: Tuple[List[List[List[int]]],
             for k, v in end_dic.items():
                 if len(v) > 1:
                     end_num += len(v)
-    
+
     print("All {}, start {}, end {}".format(all_num, start_num, end_num))
 
 
