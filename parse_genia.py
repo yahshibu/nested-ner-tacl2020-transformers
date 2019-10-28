@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from typing import Dict, Tuple, List
+from typing import Dict, Optional, Tuple, List
 import os
 
 from config import config
@@ -28,11 +28,14 @@ TAG_SET: Dict[str, Stat] = {'G#DNA': Stat(),
 class Label:
 
     def __init__(self) -> None:
-        self.start: int = None
-        self.end: int = None
-        self.tag: str = None
+        self.start: Optional[int] = None
+        self.end: Optional[int] = None
+        self.tag: Optional[str] = None
 
-    def __repr__(self) -> str:
+    def __eq__(self, other) -> bool:
+        return self.start == other.start and self.end == other.end and self.tag == other.tag
+
+    def __str__(self) -> str:
         return str(self.start) + ',' + str(self.end) + ' ' + self.tag
 
 
@@ -40,13 +43,14 @@ def calc_stat(words: List[str], labels: List[Label]) -> None:
     labels = sorted(labels, key=lambda x: (x.start, -x.end, x.tag))
     for tag, stat in TAG_SET.items():
         sequence_label = [0] * len(words)
-        for id, label in enumerate(labels):
+        prev_label = None
+        for label in labels:
 
             if label.tag != tag:
                 continue
             stat.total += 1
 
-            if id > 0 and label.__repr__() == labels[id - 1].__repr__():
+            if prev_label is not None and label == prev_label:
                 depth = sequence_label[label.start] - 1
                 stat.layer[depth] += 1
                 continue
@@ -66,6 +70,8 @@ def calc_stat(words: List[str], labels: List[Label]) -> None:
                 stat.layer[depth] += 1
             else:
                 stat.ignored += 1
+
+            prev_label = label
 
         stat.num_labels += sum(sequence_label) + len(words)
 
@@ -168,7 +174,7 @@ def parse_line(line: str, do_lower_case: bool) -> Tuple[str, str]:
 
     calc_stat(words, labels)
 
-    return ' '.join(words), '|'.join([label.__repr__() for label in labels])
+    return ' '.join(words), '|'.join([str(label) for label in labels])
 
 
 def parse_genia() -> None:
@@ -196,7 +202,7 @@ def parse_genia() -> None:
                     output_lines.append(labels + '\n')
                     output_lines.append('\n')
                     sent_count += 1
-                    token_count += len(words.split())
+                    token_count += len(words.split(' '))
 
                     if sent_count == dataset_size:
                         with open(output_dir_path + output_file, 'w') as f2:
