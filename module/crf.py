@@ -7,8 +7,6 @@ from torch import Tensor
 import torch.nn as nn
 from torch.nn.parameter import Parameter
 
-from module.nlinalg import logsumexp
-
 
 class ChainCRF4NestedNER(nn.Module):
     def __init__(self, input_size: int, num_labels_i: int) -> None:
@@ -153,12 +151,14 @@ class ChainCRF4NestedNER(nn.Module):
                 partition = curr_energy[:, self.index_bos, :]
             else:
                 # shape = [batch, num_label]
-                partition = logsumexp(curr_energy + partition.unsqueeze(2), dim=1)
+                partition = torch.logsumexp(curr_energy + partition.unsqueeze(2), dim=1)
             label = target_transpose[t]
             tgt_energy += curr_energy[batch_index, prev_label, label]
             prev_label = label
 
-        return logsumexp(self.trans_matrix.data[:, self.index_eos].unsqueeze(0) + partition, dim=1) - tgt_energy, energy
+        return \
+            torch.logsumexp(self.trans_matrix.data[:, self.index_eos].unsqueeze(0) + partition, dim=1) - tgt_energy, \
+            energy
 
     def nests_loss(self, energy: Tensor, target: Tensor) -> Tensor:
         """
@@ -175,11 +175,10 @@ class ChainCRF4NestedNER(nn.Module):
 
         num_label_3 = self.indices_is.size(0)
 
-        indices_3 = energy.new_empty((length, num_label_3)).long()
-        indices_3[0, :] = self.indices_bs
-        if length > 2:
-            indices_3[1:length - 1, :] = self.indices_is.repeat((length - 2, 1))
-        indices_3[length - 1, :] = self.indices_es
+        indices_3 = torch.cat((self.indices_bs.unsqueeze(0),
+                               self.indices_is.repeat((length - 2, 1)),
+                               self.indices_es.unsqueeze(0)),
+                              dim=0)
 
         # shape = [num_label]
         partition_1 = None
@@ -199,8 +198,8 @@ class ChainCRF4NestedNER(nn.Module):
                 # shape = [num_label]
                 partition = partition_1.clone()
                 partition[indices_3[t - 1]] = partition_3
-                partition_1 = logsumexp(curr_energy + partition_1.unsqueeze(1), dim=0)
-                partition_3 = logsumexp(curr_energy[:, indices_3[t]] + partition.unsqueeze(1), dim=0)
+                partition_1 = torch.logsumexp(curr_energy + partition_1.unsqueeze(1), dim=0)
+                partition_3 = torch.logsumexp(curr_energy[:, indices_3[t]] + partition.unsqueeze(1), dim=0)
             label = target[t]
             tgt_energy += curr_energy[prev_label, label]
             prev_label = label
@@ -209,7 +208,7 @@ class ChainCRF4NestedNER(nn.Module):
         curr_energy = self.trans_matrix.data[:, self.index_eos]
         partition = curr_energy + partition_1
         partition[indices_3[t]] = curr_energy[indices_3[t]] + partition_3
-        return logsumexp(partition, dim=0) - tgt_energy
+        return torch.logsumexp(partition, dim=0) - tgt_energy
 
     def decode(self, input: Tensor, mask: Tensor = None) -> Tuple[Tensor, Tensor]:
         """
@@ -272,11 +271,10 @@ class ChainCRF4NestedNER(nn.Module):
 
         num_label_3 = self.indices_is.size(0)
 
-        indices_3 = energy.new_empty((length, num_label_3)).long()
-        indices_3[0, :] = self.indices_bs
-        if length > 2:
-            indices_3[1:length - 1, :] = self.indices_is.repeat((length - 2, 1))
-        indices_3[length - 1, :] = self.indices_es
+        indices_3 = torch.cat((self.indices_bs.unsqueeze(0),
+                               self.indices_is.repeat((length - 2, 1)),
+                               self.indices_es.unsqueeze(0)),
+                              dim=0)
 
         pointer_1 = energy.new_zeros((length, num_label)).long()
         pointer_3 = energy.new_zeros((length, num_label)).long()

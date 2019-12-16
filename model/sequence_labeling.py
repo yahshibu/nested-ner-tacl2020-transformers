@@ -21,8 +21,8 @@ class NestedSequenceLabel:
 
 
 class BiRecurrentConvCRF4NestedNER(nn.Module):
-    def __init__(self, bert_model: str, label_size: int, hidden_size: int = 200, layers: int = 1,
-                 lstm_dropout: float = 0.20, fine_tune: bool = False) -> None:
+    def __init__(self, bert_model: str, label_size: int, hidden_size: int = 256, layers: int = 1,
+                 lstm_dropout: float = 0.50, fine_tune: bool = False) -> None:
         super(BiRecurrentConvCRF4NestedNER, self).__init__()
 
         self.bert: BertModel = BertModel.from_pretrained(bert_model)
@@ -120,16 +120,14 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
 
         loss = []
 
-        for label in range(len(self.all_crfs)):
-            target_batch = output.new_empty((batch, length)).long()
-            for i in range(batch):
-                target_batch[i, :] = target[label][i].label
+        for label, crf in enumerate(self.all_crfs):
+            target_batch = torch.cat(tuple([target_each.label.unsqueeze(0) for target_each in target[label]]), dim=0)
 
-            loss_batch, energy_batch = self.all_crfs[label].loss(output, target_batch, mask=mask)
+            loss_batch, energy_batch = crf.loss(output, target_batch, mask=mask)
 
-            calc_nests_loss = self.all_crfs[label].nests_loss
+            calc_nests_loss = crf.nests_loss
 
-            def forward_recursively(loss: Tensor, energy: Tensor, target: NestedSequenceLabel, offset: int):
+            def forward_recursively(loss: Tensor, energy: Tensor, target: NestedSequenceLabel, offset: int) -> Tensor:
                 nests_loss_list = []
                 for child in target.children:
                     if child.end - child.start > 1:
@@ -160,15 +158,15 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
 
         preds = []
 
-        for label in range(len(self.all_crfs)):
-            preds_batch, energy_batch = self.all_crfs[label].decode(output, mask=mask)
+        for crf in self.all_crfs:
+            preds_batch, energy_batch = crf.decode(output, mask=mask)
 
             b_id = self.b_id
             i_id = self.i_id
             e_id = self.e_id
             o_id = self.o_id
             eos_id = self.eos_id
-            decode_nest = self.all_crfs[label].decode_nest
+            decode_nest = crf.decode_nest
 
             def predict_recursively(preds: Tensor, energy: Tensor, offset: int) -> NestedSequenceLabel:
                 length = preds.size(0)

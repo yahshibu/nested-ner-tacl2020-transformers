@@ -26,7 +26,7 @@ class Reader:
         self.test: Optional[List[SentInst]] = None
 
     @staticmethod
-    def read_file(filename: str, mode: str = 'train') -> List[SentInst]:
+    def _read_file(filename: str, mode: str = 'train') -> List[SentInst]:
         sent_list = []
         max_len = 0
         num_thresh = 0
@@ -72,7 +72,7 @@ class Reader:
         print("Threshold 6: {}".format(num_thresh))
         return sent_list
 
-    def gen_dic(self) -> None:
+    def _gen_dic(self) -> None:
         label_set = set()
 
         for sent_list in [self.train, self.dev, self.test]:
@@ -87,8 +87,8 @@ class Reader:
         self.label_alphabet = Alphabet(label_set, 0)
 
     @staticmethod
-    def pad_batches(input_ids_batches: List[List[List[int]]],
-                    first_subtokens_batches: List[List[List[int]]]) \
+    def _pad_batches(input_ids_batches: List[List[List[int]]],
+                     first_subtokens_batches: List[List[List[int]]]) \
             -> Tuple[List[List[List[int]]],
                      List[List[List[int]]],
                      List[List[List[bool]]]]:
@@ -185,7 +185,7 @@ class Reader:
              for i in range(0, len(label_batches), batch_size)]
 
             this_input_ids_batches, this_input_mask_batches, this_mask_batches \
-                = self.pad_batches(this_input_ids_batches, this_first_subtokens_batches)
+                = self._pad_batches(this_input_ids_batches, this_first_subtokens_batches)
 
             ret_list.append((this_input_ids_batches,
                              this_input_mask_batches,
@@ -197,10 +197,10 @@ class Reader:
         return tuple(ret_list)
 
     def read_all_data(self, file_path: str, train_file: str, dev_file: str, test_file: str) -> None:
-        self.train = self.read_file(file_path + train_file)
-        self.dev = self.read_file(file_path + dev_file, mode='dev')
-        self.test = self.read_file(file_path + test_file, mode='test')
-        self.gen_dic()
+        self.train = self._read_file(file_path + train_file)
+        self.dev = self._read_file(file_path + dev_file, mode='dev')
+        self.test = self._read_file(file_path + test_file, mode='test')
+        self._gen_dic()
 
     def debug_single_sample(self,
                             subtoken: List[int],

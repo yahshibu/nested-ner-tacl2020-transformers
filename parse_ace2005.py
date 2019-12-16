@@ -65,7 +65,7 @@ class Tokenizer:
 
     def __init__(self) -> None:
         os.environ['CORENLP_HOME'] = '{}/stanford-corenlp-full-2018-10-05'.format(os.environ['HOME'])
-        self.client = CoreNLPClient()
+        self.client: CoreNLPClient = CoreNLPClient()
         self.client.ensure_alive()
         self.do_lower_case = '-cased' not in config.bert_model
         self.basic_tokenizer: BasicTokenizer \

@@ -21,9 +21,9 @@ class Config:
         self.bert_model: str = 'bert-large-uncased'
 
         # for lstm
-        self.hidden_size: int = 200
+        self.hidden_size: int = 256
         self.layers: int = 2
-        self.lstm_dropout: float = 0.20
+        self.lstm_dropout: float = 0.50
 
         # for training
         self.epoch: int = 500
