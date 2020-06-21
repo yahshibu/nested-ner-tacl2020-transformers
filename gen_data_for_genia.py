@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 from typing import Tuple, List
 from collections import defaultdict
-from reader.reader import Reader
 import pickle
 
 from config import config
+from reader.reader import Reader
 from util.utils import save_dynamic_config
 
 
