@@ -3,7 +3,6 @@ from enum import Enum
 import numpy as np
 import torch.nn
 import torch.optim as optim
-import torch.optim.optimizer as optimizer
 from adabound import AdaBound
 
 from model.sequence_labeling import NestedSequenceLabel, BiRecurrentConvCRF4NestedNER
@@ -36,8 +35,7 @@ def adjust_learning_rate(lr_scheduler: Union[optim.lr_scheduler.StepLR, optim.lr
         raise ValueError
 
 
-def create_opt(parameters: Iterator, opt: Optimizer, lr: float = None, l2: float = None, lr_patience: int = None) \
-        -> Tuple[optimizer.Optimizer, Union[optim.lr_scheduler.StepLR, optim.lr_scheduler.ReduceLROnPlateau]]:
+def create_opt(parameters: Iterator, opt: Optimizer, lr: float = None, l2: float = None, lr_patience: int = None):
     if opt == Optimizer.AdaBound:
         optimizer = AdaBound(parameters, lr=lr if lr is not None else 0.001,
                              weight_decay=l2 if l2 is not None else 0.)
@@ -94,8 +92,7 @@ def pack_target(model: BiRecurrentConvCRF4NestedNER,
     eos_id = model.eos_id
 
     def region2sequence(region_label_list: List[Tuple[int, int, int, List]], start: int, end: int,
-                        mask: List[bool] = None) \
-            -> NestedSequenceLabel:
+                        mask: List[bool] = None) -> NestedSequenceLabel:
         sequence_label = [o_id] * end
         if mask is not None and not mask[-1]:
             length = mask.index(False)
@@ -186,8 +183,7 @@ def unpack_prediction(model: BiRecurrentConvCRF4NestedNER,
         return nested_region_label_list
 
     def nested2flat(nested_label_list: List[Tuple[int, int, int, List]],
-                    flat_label_list: List[Tuple[int, int, int]]) \
-            -> None:
+                    flat_label_list: List[Tuple[int, int, int]]) -> None:
         for nested_label in nested_label_list:
             flat_label_list.append((nested_label[0], nested_label[1], nested_label[2]))
             nested2flat(nested_label[3], flat_label_list)
