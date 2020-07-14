@@ -47,33 +47,33 @@ class ChainCRF4NestedNER(nn.Module):
         self.reset_parameters()
 
     def reset_parameters(self) -> None:
-        minus_inf = -1e4
+        negative_inf = -1e4
         nn.init.constant_(self.state_nn.weight, 0.)
         self.state_nn.bias.data[:self.index_eos] = 0.
-        self.state_nn.bias.data[self.index_eos:] = minus_inf
+        self.state_nn.bias.data[self.index_eos:] = negative_inf
         nn.init.constant_(self.trans_matrix, 0.)
         for i in self.indices_bs:
-            self.trans_matrix.data[i, :i + 1] = minus_inf  # B-XXX ->
-            self.trans_matrix.data[i, i + 3:] = minus_inf  # B-XXX ->
+            self.trans_matrix.data[i, :i + 1] = negative_inf  # B-XXX ->
+            self.trans_matrix.data[i, i + 3:] = negative_inf  # B-XXX ->
         for i in self.indices_is:
-            self.trans_matrix.data[i, :i] = minus_inf  # I-XXX ->
-            self.trans_matrix.data[i, i + 2:] = minus_inf  # I-XXX ->
+            self.trans_matrix.data[i, :i] = negative_inf  # I-XXX ->
+            self.trans_matrix.data[i, i + 2:] = negative_inf  # I-XXX ->
         for i in self.indices_es:
-            self.trans_matrix.data[i, self.indices_is] = minus_inf  # E-XXX -> I-YYY
-            self.trans_matrix.data[i, self.indices_es] = minus_inf  # E-XXX -> E-YYY
-            self.trans_matrix.data[i, self.index_bos] = minus_inf  # E-XXX -> BOS
+            self.trans_matrix.data[i, self.indices_is] = negative_inf  # E-XXX -> I-YYY
+            self.trans_matrix.data[i, self.indices_es] = negative_inf  # E-XXX -> E-YYY
+            self.trans_matrix.data[i, self.index_bos] = negative_inf  # E-XXX -> BOS
         for i in self.indices_ss:
-            self.trans_matrix.data[i, self.indices_is] = minus_inf  # S-XXX -> I-YYY
-            self.trans_matrix.data[i, self.indices_es] = minus_inf  # S-XXX -> E-YYY
-            self.trans_matrix.data[i, self.index_bos] = minus_inf  # S-XXX -> BOS
-        self.trans_matrix.data[self.index_o, self.indices_is] = minus_inf  # O -> I-XXX
-        self.trans_matrix.data[self.index_o, self.indices_es] = minus_inf  # O -> E-XXX
-        self.trans_matrix.data[self.index_o, self.index_bos] = minus_inf  # O -> BOS
-        self.trans_matrix.data[self.index_eos, :self.index_eos] = minus_inf  # EOS ->
-        self.trans_matrix.data[self.index_eos, self.index_bos] = minus_inf  # EOS -> BOS
-        self.trans_matrix.data[self.index_bos, self.indices_is] = minus_inf  # BOS -> I-XXX
-        self.trans_matrix.data[self.index_bos, self.indices_es] = minus_inf  # BOS -> E-XXX
-        self.trans_matrix.data[self.index_bos, self.index_bos] = minus_inf  # BOS -> BOS
+            self.trans_matrix.data[i, self.indices_is] = negative_inf  # S-XXX -> I-YYY
+            self.trans_matrix.data[i, self.indices_es] = negative_inf  # S-XXX -> E-YYY
+            self.trans_matrix.data[i, self.index_bos] = negative_inf  # S-XXX -> BOS
+        self.trans_matrix.data[self.index_o, self.indices_is] = negative_inf  # O -> I-XXX
+        self.trans_matrix.data[self.index_o, self.indices_es] = negative_inf  # O -> E-XXX
+        self.trans_matrix.data[self.index_o, self.index_bos] = negative_inf  # O -> BOS
+        self.trans_matrix.data[self.index_eos, :self.index_eos] = negative_inf  # EOS ->
+        self.trans_matrix.data[self.index_eos, self.index_bos] = negative_inf  # EOS -> BOS
+        self.trans_matrix.data[self.index_bos, self.indices_is] = negative_inf  # BOS -> I-XXX
+        self.trans_matrix.data[self.index_bos, self.indices_es] = negative_inf  # BOS -> E-XXX
+        self.trans_matrix.data[self.index_bos, self.index_bos] = negative_inf  # BOS -> BOS
         self.trans_matrix.requires_grad = False
 
     def get_indices(self) -> Tuple[List[Dict[str, int]], int, int, int]:
@@ -127,7 +127,7 @@ class ChainCRF4NestedNER(nn.Module):
                 the mask tensor with shape = [batch, length]
 
         Returns: Tensor
-                A 1D tensor for minus log likelihood loss
+                A 1D tensor for negative log likelihood loss
         """
         batch, length, _ = input.size()
         energy = self.forward(input, mask=mask)
@@ -169,7 +169,7 @@ class ChainCRF4NestedNER(nn.Module):
                 the tensor of target labels with shape [length]
 
         Returns: Tensor
-                A 0D tensor for minus log likelihood loss
+                A 0D tensor for negative log likelihood loss
         """
         length, _, _ = energy.size()
 
