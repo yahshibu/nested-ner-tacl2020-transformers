@@ -82,13 +82,16 @@ Configurations of the model and training are in **config.py**
 
 ## Citation
 
-Please cite [our arXiv paper](https://arxiv.org/abs/1909.02250):
+Please cite [our paper](https://www.mitpressjournals.org/doi/full/10.1162/tacl_a_00334):
 
 ```
-@article{shibuya2019nested,
-  title={Nested Named Entity Recognition via Second-best Sequence Learning and Decoding},
-  author={Shibuya, Takashi and Hovy, Eduard},
-  journal={arXiv preprint arXiv:1909.02250},
-  year={2019}
+@article{shibuya-hovy-2020-nested,
+  title = "Nested Named Entity Recognition via Second-best Sequence Learning and Decoding",
+  author = "Shibuya, Takashi and Hovy, Eduard",
+  journal = "Transactions of the Association for Computational Linguistics",
+  volume = "8",
+  year = "2020",
+  doi = "10.1162/tacl_a_00334",
+  pages = "605--620",
 }
 ```
