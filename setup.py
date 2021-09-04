@@ -8,7 +8,7 @@ setup(
     packages=find_packages(exclude='data'),  # same as name
     license="MIT",
     install_requires=[
-        'torch>=1.3.0',
+        'torch>=1.6.0',
         'numpy>=1.17.3',
         'adabound>=0.0.5',
         'stanfordnlp>=0.2.0',

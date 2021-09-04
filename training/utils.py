@@ -3,8 +3,8 @@ from enum import Enum
 import numpy as np
 import torch.nn
 import torch.optim as optim
-from adabound import AdaBound
 
+from training.adabound import AdaBound
 from model.sequence_labeling import NestedSequenceLabel, BiRecurrentConvCRF4NestedNER
 
 
