@@ -4,7 +4,7 @@ import os
 import re
 import glob
 from stanfordnlp.server import CoreNLPClient
-from pytorch_transformers.tokenization_bert import BasicTokenizer, BertTokenizer
+from transformers import BasicTokenizer, BertTokenizer
 
 from config import config
 

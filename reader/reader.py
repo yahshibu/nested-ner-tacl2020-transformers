@@ -1,7 +1,7 @@
 from typing import Optional, List, Tuple
 import pdb
 from collections import namedtuple, defaultdict
-from transformers.tokenization_bert import BertTokenizer
+from transformers import BertTokenizer
 
 from util.utils import Alphabet
 

@@ -5,7 +5,7 @@ from typing import List, Union
 import torch
 from torch import Tensor
 import torch.nn as nn
-from transformers.modeling_bert import BertModel
+from transformers import BertModel
 
 from module.crf import ChainCRF4NestedNER
 from module.dropout import VarDropout
@@ -40,7 +40,7 @@ class BiRecurrentConvCRF4NestedNER(nn.Module):
         else:
             for name, parameter in self.bert.named_parameters():
                 parameter.requires_grad = False
-            self.bert.encoder.output_hidden_states = True
+            self.bert.config.output_hidden_states = True
         # standard dropout
         self.dropout_out: nn.Dropout2d = nn.Dropout2d(p=lstm_dropout)
 

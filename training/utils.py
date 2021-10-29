@@ -18,7 +18,7 @@ def adjust_learning_rate(lr_scheduler: Union[optim.lr_scheduler.StepLR, optim.lr
                          epoch: int, train_loss: float, dev_f1: float) -> bool:
     if isinstance(lr_scheduler, optim.lr_scheduler.StepLR):
         if isinstance(lr_scheduler.optimizer, AdaBound):
-            lr_scheduler.step(epoch=epoch)
+            lr_scheduler.step()
             return epoch < 200
         else:
             raise ValueError

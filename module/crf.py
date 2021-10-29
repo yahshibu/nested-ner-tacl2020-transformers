@@ -36,10 +36,10 @@ class ChainCRF4NestedNER(nn.Module):
             indices_is.append(index_i['I'])
             indices_es.append(index_i['E'])
             indices_ss.append(index_i['S'])
-        self.indices_bs: Tensor = torch.LongTensor(indices_bs)
-        self.indices_is: Tensor = torch.LongTensor(indices_is)
-        self.indices_es: Tensor = torch.LongTensor(indices_es)
-        self.indices_ss: Tensor = torch.LongTensor(indices_ss)
+        self.register_buffer('indices_bs', torch.LongTensor(indices_bs))
+        self.register_buffer('indices_is', torch.LongTensor(indices_is))
+        self.register_buffer('indices_es', torch.LongTensor(indices_es))
+        self.register_buffer('indices_ss', torch.LongTensor(indices_ss))
         self.index_o: int = index_o
         self.index_eos: int = index_eos
         self.index_bos: int = index_bos
